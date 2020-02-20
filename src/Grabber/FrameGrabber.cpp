@@ -101,7 +101,7 @@ bool CFrameGrabber::Setup()
 
 		return true; // All ok? then return true and start Run();
   	}
-  	catch (string error)
+	catch (string &error)
   	{
     	PrintError(error);
     	return false;

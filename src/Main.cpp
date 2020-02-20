@@ -80,7 +80,7 @@ int main (int argc, char *argv[])
   {
     g_flagmanager.ParseFlags(argc, argv);
   }
-  catch (string error)
+  catch (string &error)
   {
     PrintError(error);
     g_flagmanager.PrintHelpMessage();
