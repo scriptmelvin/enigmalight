@@ -44,7 +44,7 @@ string GetStrTime()
 
 bool InitLog(string filename, ofstream& logfile)
 {
-  string directory = "/home/elight-addons/.enigmalight/";
+  string directory = "/tmp/enigmalight/";
   string fullpath = directory + filename;
 
   //try to make the directory the log goes in
