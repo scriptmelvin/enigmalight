@@ -89,8 +89,8 @@ bool CDeviceLightpack::SetupDevice()
 
 
       if (m_devicehandle == NULL
-            && (isSerialSet && strncmp(m_serial, serial, USBDEVICE_SERIAL_SIZE)==0
-                || !isSerialSet && (m_busnumber == -1 || m_busnumber == busnumber) && (m_deviceaddress == -1 || m_deviceaddress == deviceaddress)))
+            && ((isSerialSet && strncmp(m_serial, serial, USBDEVICE_SERIAL_SIZE)==0)
+                || (!isSerialSet && (m_busnumber == -1 || m_busnumber == busnumber) && (m_deviceaddress == -1 || m_deviceaddress == deviceaddress))))
       {
         libusb_device_handle *devhandle;
 

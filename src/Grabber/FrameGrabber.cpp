@@ -488,7 +488,7 @@ bool CFrameGrabber::CheckRes(CBitmap* bitmap)
     	|| yres <= 1 || yres >= yres_orig/2 || xres <= 1 || xres >= xres_orig/2) 
     {  
         m_noVideo = true;
-        if(m_old_3d_mode != m_grabber->m_3d_mode || xres > 2 && yres > 2)
+        if(m_old_3d_mode != m_grabber->m_3d_mode || (xres > 2 && yres > 2))
         {   
             bitmap->SetYresOld(yres); bitmap->SetXresOld(xres);
 
