@@ -52,7 +52,7 @@ CFlagManager g_flagmanager;
 int main (int argc, char *argv[])
 {
 
-  printf("\nEnigmaLight (c) 2014 Speedy1985 and Oktay Oeztueter.\n(Based on Boblight (c) 2009 by Bob Loosen)\n\n",PACKAGE_VERSION);
+  printf("\nEnigmaLight " PACKAGE_VERSION " (c) 2014 Speedy1985 and Oktay Oeztueter.\n(Based on Boblight (c) 2009 by Bob Loosen)\n\n");
   
   FILE* pipe = popen("pidof enigmalight |wc -w", "r");
   std::string result = "";
@@ -151,7 +151,7 @@ int main (int argc, char *argv[])
     //start the devices, each device has his own thread
     //Log("Try to start devices");
     for (int i = 0; i < devices.size(); i++){
-      Log("Start device %i from %i",i+1,devices.size());
+      Log("Start device %i from %zu",i+1,devices.size());
       devices[i]->StartThread();   
     }
 
@@ -181,7 +181,7 @@ int main (int argc, char *argv[])
     //stop the devices
     Log("Waiting for devices to stop");
     for (int i = 0; i < devices.size(); i++){
-    	Log("Stop device %i from %i",i+1,devices.size());
+    	Log("Stop device %i from %zu",i+1,devices.size());
       devices[i]->StopThread();
     }
 
