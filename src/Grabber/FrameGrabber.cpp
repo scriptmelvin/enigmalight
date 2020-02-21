@@ -351,7 +351,7 @@ bool CFrameGrabber::grabFrame(CBitmap* bitmap, int skiplines)
 	// Extra debug info
 	//
 	if(m_grabber->m_grabinfo)
-    printf("\nGrabInfo -> X-ResOrig: %i Y-ResOrig: %i FPS:%2.1f Adr: %X Adr2: %X OFS,OFS2: %d %d = %d C-offset:%d\n",xres_orig, yres_orig, m_fps, adr, adr2, ofs, ofs2, ofs+ofs2, offset);
+    printf("\nGrabInfo -> X-ResOrig: %i Y-ResOrig: %i FPS:%2.1Lf Adr: %X Adr2: %X OFS,OFS2: %d %d = %d C-offset:%d\n",xres_orig, yres_orig, m_fps, adr, adr2, ofs, ofs2, ofs+ofs2, offset);
     
     
 	//
@@ -576,9 +576,9 @@ void CFrameGrabber::updateInfo(CBitmap* bitmap, CGuiServer& g_guiserver)
 		if(m_grabber->m_debug)
 		{
 		    if(!m_noVideo){
-		         Log("DBG -> gFPS:%2.1f | Res:%dx%d (%dx%d)",m_fps,bitmap->GetXres(),bitmap->GetYres(),bitmap->GetXresOrig(),bitmap->GetYresOrig());
+		         Log("DBG -> gFPS:%2.1Lf | Res:%dx%d (%dx%d)",m_fps,bitmap->GetXres(),bitmap->GetYres(),bitmap->GetXresOrig(),bitmap->GetYresOrig());
 		    }else{
-		         Log("DBG -> gFPS:%2.1f | No video input...",m_fps);		             
+		         Log("DBG -> gFPS:%2.1Lf | No video input...",m_fps);
 		    }
 		}
 	}
