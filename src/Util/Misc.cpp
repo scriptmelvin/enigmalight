@@ -93,7 +93,8 @@ int hexFromFile(const char *filename)
   FILE* fd = fopen(filename, "r");
   if (!fd) return -1;
   int result = -1;
-  fscanf(fd, "%x", &result);
+  int ignored __attribute__((unused));
+  ignored = fscanf(fd, "%x", &result);
   fclose(fd);
   return result;
 }

@@ -158,7 +158,8 @@ bool CFrameGrabber::grabFrame(CBitmap* bitmap, int skiplines)
     while (1) {
         unsigned int val = ((volatile unsigned int*)data)[0x30/4];
         if (val & 1){
-            nice(0);
+            int ignored __attribute__((unused));
+            ignored = nice(0);
             break;
         }        
 
