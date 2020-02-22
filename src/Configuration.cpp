@@ -4,17 +4,17 @@
  *
  * - aiograb		(http://schwerkraft.elitedvb.net/projects/aio-grab/)
  * - boblight (c) 2009 Bob Loosen
- * 
+ *
  * EnigmaLight is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * EnigmaLight is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,7 +33,7 @@
 #include "Device/DeviceLTBL.h"
 
 //Lightpack and IBelight needs libusb !
-#include "Device/DeviceLightPack.h"
+#include "Device/DeviceLightpack.h"
 #include "Device/DeviceIbelight.h"
 
 
@@ -52,7 +52,7 @@ bool CConfig::LoadConfigFromFile(string file)
   int currentsection = SECTNOTHING;
 
   m_filename = file;
-  
+
   Log("Opening %s", file.c_str());
 
   //try to open the config file
@@ -143,7 +143,7 @@ bool CConfig::LoadConfigFromFile(string file)
 
 void CConfig::PrintConfig()
 {
-  Log("[global]");    
+  Log("[global]");
 
   for (int i = 0; i < m_globalconfiglines.size(); i++)
   {
@@ -212,7 +212,7 @@ bool CConfig::CheckConfig()
 
   if (!CheckLightConfig())
     valid = false;
-    
+
   if (!CheckGlobalConfig())
     valid = false;
 
@@ -222,18 +222,18 @@ bool CConfig::CheckConfig()
   if (!CheckColorConfig())
     valid = false;
 
-  
-  
+
+
   if (valid)
     Log("config lines valid");
-  
+
   return valid;
 }
 
 bool CConfig::CheckGlobalConfig()
 {
   bool valid = true;
-  
+
   for (int i = 0; i < m_globalconfiglines.size(); i++)
   {
     string line = m_globalconfiglines[i].line;
@@ -314,7 +314,7 @@ bool CConfig::CheckDeviceConfig()
         {
           LogError("%s line %i section [device]: wrong value %s for key %s", m_filename.c_str(), linenr, value.c_str(), key.c_str());
           valid = false;
-        }          
+        }
       }
       else if (key == "threadpriority")
       {
@@ -379,7 +379,7 @@ bool CConfig::CheckDeviceConfig()
       {
         LogError("%s line %i section [device]: unknown key %s", m_filename.c_str(), linenr, key.c_str());
         valid = false;
-      }      
+      }
     }
   }
 
@@ -440,7 +440,7 @@ bool CConfig::CheckColorConfig()
       {
         LogError("%s line %i section [color]: unknown key %s", m_filename.c_str(), linenr, key.c_str());
         valid = false;
-      }      
+      }
     }
   }
 
@@ -537,7 +537,7 @@ bool CConfig::CheckLightConfig()
       {
         LogError("%s line %i section [light]: unknown key %s", m_filename.c_str(), linenr, key.c_str());
         valid = false;
-      }      
+      }
     }
   }
 
@@ -566,7 +566,7 @@ int CConfig::GetLineWithKey(std::string key, std::vector<CConfigLine>& lines, st
 bool CConfig::BuildConfig(CMainLoop& mainloop, std::vector<CDevice*>& devices, std::vector<CLight>& lights)
 {
   Log("building config");
-  
+
   //Build mainloop from config
   BuildServerConfig(mainloop);
 
@@ -582,7 +582,7 @@ bool CConfig::BuildConfig(CMainLoop& mainloop, std::vector<CDevice*>& devices, s
   //Build DeviceConfig
   if (!BuildLightConfig(lights, devices, colors))
     return false;
-  
+
   Log("built config successfully");
 
   return true;
@@ -878,7 +878,7 @@ bool CConfig::BuildPopen(CDevice*& device, int devicenr, CMainLoop& mainloop)
   SetDeviceThreadPriority(device, devicenr);
 
   device->SetType(POPEN);
-  
+
   return true;
 }
 
@@ -933,7 +933,7 @@ bool CConfig::BuildRS232(CDevice*& device, int devicenr, CMainLoop& mainloop, co
   {
     device->SetType(SEDU);
   }
-  
+
   return true;
 }
 
@@ -962,7 +962,7 @@ bool CConfig::BuildLtbl(CDevice*& device, int devicenr, CMainLoop& mainloop)
   SetDeviceThreadPriority(device, devicenr);
 
   device->SetType(LTBL);
-  
+
   return true;
 }
 
@@ -1046,7 +1046,7 @@ bool CConfig::BuildDioder(CDevice*& device, int devicenr, CMainLoop& mainloop)
   SetDeviceThreadPriority(device, devicenr);
 
   device->SetType(DIODER);
-  
+
   return true;
 
 }
@@ -1092,17 +1092,17 @@ bool CConfig::SetDevicePrecision(CDeviceAmbioder*& device, int devicenr)
 	  int linenr = GetLineWithKey("precision", m_devicelines[devicenr].lines, line);
 	  if (linenr == -1)
 	    return false;
-	
+
 	  GetWord(line, strvalue);
-	
+
 	  int precision;
 	  StrToInt(strvalue, precision);
-	
+
       if(!device->SetPrecision(precision))
 	    return false;
-	
+
 	  return true;
-}	
+}
 
 bool CConfig::SetDeviceName(CDevice* device, int devicenr)
 {
@@ -1150,7 +1150,7 @@ bool CConfig::SetDeviceChannels(CDevice* device, int devicenr)
   device->SetNrChannels(nrchannels);
 
   return true;
-}  
+}
 
 bool CConfig::SetDeviceRate(CDevice* device, int devicenr)
 {
@@ -1195,7 +1195,7 @@ void CConfig::SetDevicePrefix(CDeviceRS232* device, int devicenr)
   int linenr = GetLineWithKey("prefix", m_devicelines[devicenr].lines, line);
   if (linenr == -1)
   {
-    return; //prefix is optional, so this is not an error 
+    return; //prefix is optional, so this is not an error
   }
 
   while(GetWord(line, strvalue))
@@ -1214,7 +1214,7 @@ void CConfig::SetDevicePostfix(CDeviceRS232* device, int devicenr)
   int linenr = GetLineWithKey("postfix", m_devicelines[devicenr].lines, line);
   if (linenr == -1)
   {
-    return; //postfix is optional, so this is not an error 
+    return; //postfix is optional, so this is not an error
   }
 
   while(GetWord(line, strvalue))
@@ -1434,4 +1434,4 @@ void CConfig::SetLightScanRange(CLight& light, std::vector<CConfigLine>& lines)
     sscanf(line.c_str(), "%f %f", vscan, vscan + 1);
     light.SetVscan(vscan);
   }
-}  
+}
