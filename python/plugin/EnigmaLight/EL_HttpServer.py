@@ -12,9 +12,11 @@
 from enigma import eEnv
 from Components.config import config
 from Tools.Directories import fileExists
+
+from twisted import version
 from twisted.internet import reactor, ssl
-from twisted.web import server, http, static, resource, error, version
 from twisted.internet.error import CannotListenError
+from twisted.web import server, http, static, resource, error
 
 from remote.root import RootController
 from socket import gethostname, has_ipv6

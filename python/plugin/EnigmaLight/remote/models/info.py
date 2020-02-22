@@ -15,7 +15,7 @@ from Components.config import config
 
 from Tools.Directories import fileExists, pathExists
 from time import time, localtime, strftime
-from twisted.web import version
+from twisted import version
 
 import os
 import sys
