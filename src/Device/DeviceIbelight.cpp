@@ -56,7 +56,11 @@ bool CDeviceiBeLight::SetupDevice()
   }
 
   if (m_debug)
+#if LIBUSB_API_VERSION < 0x01000106
     libusb_set_debug(m_usbcontext, 3);
+#else
+    libusb_set_option(m_usbcontext, LIBUSB_OPTION_LOG_LEVEL, 3);
+#endif
 
   libusb_device** devicelist;
   libusb_device*  device = NULL;
