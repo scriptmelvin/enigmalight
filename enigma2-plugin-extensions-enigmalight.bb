@@ -61,6 +61,7 @@ fi
 
 rm -rf /usr/bin/enigmalight 2>/dev/null
 rm -rf /usr/bin/elighttalk 2>/dev/null
+rm -rf /usr/bin/elightprefix 2>/dev/null
 
 echo "Checking for $FILE..."
 if [ -f $FILE ]; then
@@ -152,6 +153,7 @@ echo ""
 
 rm -rf /usr/bin/enigmalight 2>/dev/null
 rm -rf /usr/bin/elighttalk 2>/dev/null
+rm -rf /usr/bin/elightprefix 2>/dev/null
 rm -rf /usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight 2>/dev/null
 rm -rf /home/elight-addons 2>/dev/null
 

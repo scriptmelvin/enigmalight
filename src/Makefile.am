@@ -1,18 +1,19 @@
 ## Process this file with automake to produce Makefile.in
-ACLOCAL_AMFLAGS=-I m4
+ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = subdir-objects
 
-C_INCLUDE_PATH=Include
+C_INCLUDE_PATH = Include
 
-CPLUS_INCLUDE_PATH=Include
+CPLUS_INCLUDE_PATH = Include
 
-AM_CPPFLAGS= 
+AM_CPPFLAGS =
 
-AM_CFLAGS = 
+AM_CFLAGS =
 
 bin_PROGRAMS = \
 	enigmalight \
-	elighttalk
+	elighttalk \
+	elightprefix
 
 enigmalight_SOURCES = \
 	Main.cpp \
@@ -60,5 +61,8 @@ elighttalk_SOURCES = \
 	ElightTalk/Main.cpp \
 	Util/Misc.cpp
 
-## libusb used for LightPack and IBelight
+elightprefix_SOURCES = \
+	ElightPrefix/Prefix.c
+
+#libusb used for LightPack and IBelight
 enigmalight_LDFLAGS = -lusb-1.0

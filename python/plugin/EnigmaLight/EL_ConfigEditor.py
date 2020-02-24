@@ -601,7 +601,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				# Prefix calculation [This only works for arduino boards]
 				#
 
-				os.system("/home/elight-addons/prefix "+str(total_lights)+" > /tmp/prefix.txt")
+				os.system("/usr/bin/elightprefix "+str(total_lights)+" > /tmp/prefix.txt")
 
 				fo = open("/tmp/prefix.txt", "r")
 				reading = fo.read(1000)
