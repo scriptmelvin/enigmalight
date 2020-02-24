@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <cstdlib> 
+#include <cstdlib>
 #include <fstream>
 #include <stdlib.h>
 #include <errno.h>
@@ -15,19 +15,19 @@
 using namespace std;
 
 void         PrintHelpMessage();
-    
-bool         m_printhelp;                               
-bool         m_printoptions;   
-    
+
+bool         m_printhelp;
+bool         m_printoptions;
+
 std::vector<std::string> m_options;
 
-void         ParseFlags(int tempargc, char** tempargv); 
+void         ParseFlags(int tempargc, char** tempargv);
 void         ParseOptions();
 
-std::string  m_flags;                                   
+std::string  m_flags;
 std::string  m_straddress;
 
-void PostGetopt(int optind, int argc, char** argv) {};                              
+void PostGetopt(int optind, int argc, char** argv) {};
 void SetOption(const char* option);
 
 //Socket vars
@@ -40,13 +40,13 @@ int main(int argc, char* argv[])
 {
     m_printhelp = false;
     m_flags = "h::o:";
-    
+
     if (m_printhelp) //print help message
     {
         PrintHelpMessage();
         exit(1);
     }
-    
+
     try
     {
         ParseFlags(argc, argv);
@@ -89,14 +89,12 @@ int main(int argc, char* argv[])
       std::cout << "Succesfull Connected." << std::endl;
     }
 
-
-    
     if(m_options.size() > 0)
     {
       std::cout << "ParseOptions: " << m_options.size() << std::endl;
       ParseOptions();
     }
-    
+
     freeaddrinfo(host_info_list);
     close(socketfd);
 
@@ -104,51 +102,6 @@ int main(int argc, char* argv[])
     std::cout << "Exit." << std::endl;
 
     return 0;
-}
-
-//very simple, store a copy of argc and argv
-CArguments::CArguments(int argc, char** argv)
-{
-  m_argc = argc;
-
-  if (m_argc == 0)
-  {
-    m_argv = NULL;
-  }
-  else
-  {
-    m_argv = new char*[m_argc];
-    for (int i = 0; i < m_argc; i++)
-    {
-      m_argv[i] = new char[strlen(argv[i]) + 1];
-      strcpy(m_argv[i], argv[i]);
-    }
-  }
-}
-
-//delete the copy of argv
-CArguments::~CArguments()
-{
-  if (m_argv)
-  {
-    for (int i = 0; i < m_argc; i++)
-    {
-      delete[] m_argv[i];
-    }
-    delete[] m_argv;
-  }
-}
-
-std::vector<std::string> split(std::string str,std::string sep){
-    char* cstr=const_cast<char*>(str.c_str());
-    char* current;
-    std::vector<std::string> arr;
-    current=strtok(cstr,sep.c_str());
-    while(current!=NULL){
-        arr.push_back(current);
-        current=strtok(NULL,sep.c_str());
-    }
-    return arr;
 }
 
 void ParseFlags(int tempargc, char** tempargv)
@@ -159,7 +112,7 @@ void ParseFlags(int tempargc, char** tempargv)
   int    c;
 
   opterr = 0; //we don't want to print error messages
-  
+
   while ((c = getopt(tempargc, tempargv, m_flags.c_str())) != -1)
   {
     if (c == 'h')
@@ -208,10 +161,10 @@ void ParseOptions()
         optionvalue = option.substr(option.find('=') + 1); //value is everything after =
 
         option = "set " + optionname + " " + optionvalue + "\n";
-        
+
         //bitch if we can't set this option
         SetOption(option.c_str());
-        
+
     }
 }
 
@@ -222,13 +175,13 @@ void SetOption(const char* option)
     int len;
     ssize_t bytes_sent;
     len = strlen(option);
-    
+
     if (send(socketfd, option, len, 0) == -1) {
       perror("send");
       exit(1);
     }else{
       cout << "Command [" << option << "] sended.." << "\n";
-    }    
+    }
 }
 
 void PrintHelpMessage()
