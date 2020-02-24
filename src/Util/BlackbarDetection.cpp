@@ -405,7 +405,7 @@ bool CBlackbarDetection::IsContent(int start, int end)
   //if (ViewModeSwitcher.currentSettings.verboseLog)
   
   if(m_debug)
-  	Log("DBG ->  IsContent: Max : R{0}, G{1}, B{2}", maxR, maxG, maxB);
+  	Log("DBG -> IsContent: Max : R %i, G %i, B %i", maxR, maxG, maxB);
 
   //At least one pixel with brightness level over 'LBMaxBlackLevel' is found
   if (maxR > maxBrightnessTreshold || maxG > maxBrightnessTreshold || maxB > maxBrightnessTreshold)
@@ -415,7 +415,7 @@ bool CBlackbarDetection::IsContent(int start, int end)
 
   //if (ViewModeSwitcher.currentSettings.verboseLog)
   if(m_debug)
-  	Log("DBG ->  IsContent: Number of pixel above treshold : R{0}, G{1}, B{2}", sumR, sumG, sumB);
+  	Log("DBG -> IsContent: Number of pixel above treshold : R %i, G %i, B %i", sumR, sumG, sumB);
 
   //Over 25% of the pixels in the line are above the minimum brightness treshold
   if (sumR > ((end - start) / 4) || sumG > ((end - start) / 4) || sumB > ((end - start) / 4))
