@@ -130,9 +130,9 @@ bool CDeviceLightpack::SetupDevice()
       LogError("%s: no Lightpack device with serial number %s found", m_name.c_str(), m_serial);
     } else {
       if(m_busnumber == -1 || m_deviceaddress == -1)
-        LogError("%s: no Lightpack device found", m_name.c_str(), LIGHTPACK_VID, LIGHTPACK_PID);
+        LogError("%s: no Lightpack device found with VID %d PID %d", m_name.c_str(), LIGHTPACK_VID, LIGHTPACK_PID);
       else
-        LogError("%s: no Lightpack device found at bus %i, address %i", m_name.c_str(), LIGHTPACK_VID, LIGHTPACK_PID, m_busnumber, m_deviceaddress);
+        LogError("%s: no Lightpack device found with VID %d PID %d at bus %i, address %i", m_name.c_str(), LIGHTPACK_VID, LIGHTPACK_PID, m_busnumber, m_deviceaddress);
     }
 
     return false;
