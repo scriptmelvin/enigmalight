@@ -70,6 +70,12 @@ bool CDeviceLightpack::SetupDevice()
   for (ssize_t i = 0; i < nrdevices; i++)
   {
     libusb_device_descriptor descriptor;
+    int busnumber;
+    int deviceaddress;
+
+    char serial[USBDEVICE_SERIAL_SIZE];
+
+    libusb_device_handle *devhandle;
     error = libusb_get_device_descriptor(devicelist[i], &descriptor);
     if (error != LIBUSB_SUCCESS)
     {
@@ -77,54 +83,67 @@ bool CDeviceLightpack::SetupDevice()
       continue;
     }
 
-    //try to find a usb device with the Lightpack vendor and product ID
-    if ((descriptor.idVendor == LIGHTPACK_VID && descriptor.idProduct == LIGHTPACK_PID) ||
-        (descriptor.idVendor == LIGHTPACK_VID_LEGACY && descriptor.idProduct == LIGHTPACK_PID_LEGACY))
-    {
-      int busnumber = libusb_get_bus_number(devicelist[i]);
-      int deviceaddress = libusb_get_device_address(devicelist[i]);
+    // Correct vendor id?
+    if ((descriptor.idVendor != LIGHTPACK_VID) &&
+        (descriptor.idVendor != LIGHTPACK_VID_LEGACY))
+      continue;
 
-      char serial[USBDEVICE_SERIAL_SIZE];
-      error = get_serial_number(devicelist[i], descriptor, serial, USBDEVICE_SERIAL_SIZE);
-      if (error > 0)
-        Log("%s: probing Lightpack at bus %d address %d, serial is %s", m_name.c_str(), busnumber, deviceaddress, serial);
-      else
-        Log("%s: probing Lightpack at bus %d address %d. Couldn't get serial.", m_name.c_str(), busnumber, deviceaddress);
+    // Correct product id?
+    if ((descriptor.idProduct != LIGHTPACK_PID) &&
+        (descriptor.idProduct != LIGHTPACK_PID_LEGACY))
+      continue;
 
+    busnumber = libusb_get_bus_number(devicelist[i]);
+    deviceaddress = libusb_get_device_address(devicelist[i]);
 
-      if (m_devicehandle == NULL
-            && ((isSerialSet && strncmp(m_serial, serial, USBDEVICE_SERIAL_SIZE)==0)
-                || (!isSerialSet && (m_busnumber == -1 || m_busnumber == busnumber) && (m_deviceaddress == -1 || m_deviceaddress == deviceaddress))))
-      {
-        libusb_device_handle *devhandle;
+    // Correct bus?
+    if ((m_busnumber != -1) && (m_busnumber != busnumber))
+      continue;
 
-        error = libusb_open(devicelist[i], &devhandle);
-        if (error != LIBUSB_SUCCESS)
-        {
-          LogError("%s: error opening device, error %i %s", m_name.c_str(), error, UsbErrorName(error));
-          return false;
-        }
+    // Correct address?
+    if ((m_deviceaddress != -1) && (m_deviceaddress != deviceaddress))
+      continue;
 
-        if ((error=libusb_detach_kernel_driver(devhandle, LIGHTPACK_INTERFACE)) != LIBUSB_SUCCESS) {
-          LogError("%s: error detaching interface %i, error:%i %s", m_name.c_str(), LIGHTPACK_INTERFACE, error, UsbErrorName(error));
-          return false;
-        }
-
-        if ((error = libusb_claim_interface(devhandle, LIGHTPACK_INTERFACE)) != LIBUSB_SUCCESS)
-        {
-          LogError("%s: error claiming interface %i, error:%i %s", m_name.c_str(), LIGHTPACK_INTERFACE, error, UsbErrorName(error));
-          return false;
-        }
-
-        m_devicehandle = devhandle;
-
-        //Disable internal smoothness implementation
-        DisableSmoothness();
-
-        Log("%s: Lightpack is initialized, bus %d device address %d", m_name.c_str(), busnumber, deviceaddress);
-      }
+    error = get_serial_number(devicelist[i], descriptor, serial, USBDEVICE_SERIAL_SIZE);
+    if (error < 0) {
+      LogError("%s: error getting device serial, error %i %s", m_name.c_str(), error, UsbErrorName(error));
+      serial[0] = '\0';
     }
-  }
+
+    // Correct serial?
+    if ((strlen(m_serial) > 0) &&
+        (strncmp(m_serial, serial, USBDEVICE_SERIAL_SIZE) != 0))
+      continue;
+
+    error = libusb_open(devicelist[i], &devhandle);
+    if (error != LIBUSB_SUCCESS)
+    {
+      LogError("%s: error opening device, error %i %s", m_name.c_str(), error, UsbErrorName(error));
+      return false;
+    }
+
+    if ((error=libusb_detach_kernel_driver(devhandle, LIGHTPACK_INTERFACE)) != LIBUSB_SUCCESS) {
+      LogError("%s: error detaching interface %i, error:%i %s", m_name.c_str(), LIGHTPACK_INTERFACE, error, UsbErrorName(error));
+      return false;
+    }
+
+    if ((error = libusb_claim_interface(devhandle, LIGHTPACK_INTERFACE)) != LIBUSB_SUCCESS)
+    {
+    LogError("%s: error claiming interface %i, error:%i %s", m_name.c_str(), LIGHTPACK_INTERFACE, error, UsbErrorName(error));
+    return false;    
+    }
+    m_devicehandle = devhandle;
+
+    //Disable internal smoothness implementation
+    DisableSmoothness();
+
+    if (strlen(serial) > 0)
+      Log("%s: found Lightpack at bus %d address %d, serial is %s", m_name.c_str(), busnumber, deviceaddress, serial);
+    else
+      Log("%s: found Lightpack at bus %d address %d. Couldn't get serial.", m_name.c_str(), busnumber, deviceaddress);
+
+    break;
+}
 
   libusb_free_device_list(devicelist, 1);
 
