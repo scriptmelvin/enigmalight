@@ -31,7 +31,7 @@ class CThread
 {
   public:
     CThread();
-    ~CThread();
+    virtual ~CThread();
     void StartThread();
     void StopThread();
     void AsyncStopThread();
