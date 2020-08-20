@@ -78,4 +78,6 @@ bool CMoodlamp::Run()
         newRGB[1] =  MIN(0xFF, newRGB[1]);
         newRGB[2] =  MIN(0xFF, newRGB[2]);
 	}
-}	        
+	return true;
+}
+

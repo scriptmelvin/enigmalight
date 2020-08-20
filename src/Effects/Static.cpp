@@ -26,4 +26,5 @@ bool CStatic::Run()
         //sleep some ms
         usleep(50000);
 	}
+	return true;
 }

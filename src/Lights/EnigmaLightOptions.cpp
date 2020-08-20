@@ -812,6 +812,7 @@ int CEnigmaLight::SendRGB(int sync, int* outputused, CClient* client, int cluste
   }else{
     m_mainloop->ParseSync(client);
   }
+  return 0;
 }
 
 int CEnigmaLight::Ping(int* outputused, bool send)

@@ -38,4 +38,6 @@ bool CRainbow::Run()
 	    usleep(20 * 1000);
   
     }
-}           		   
+    return true;
+}
+

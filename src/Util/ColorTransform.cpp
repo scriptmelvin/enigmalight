@@ -65,4 +65,5 @@ float* SwapRGB(int color_sequence, float* rgb)
 		default: 
 			break;
 	}
+	return rgb;
 }

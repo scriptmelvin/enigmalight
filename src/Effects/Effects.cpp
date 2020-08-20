@@ -55,5 +55,6 @@ bool CEffect::Run()
        
      	delete i_rain;	    
   	}
-  }	
+  }
+  return true;
 }

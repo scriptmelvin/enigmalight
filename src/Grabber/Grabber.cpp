@@ -81,6 +81,8 @@ bool CGrabber::Setup()
 	Log("Lights: %d, Cluster leds: %d as one led",nrlights,m_cluster);
 	Log("Channels: %d",channels);
 	Log("Interval: %.2f",m_interval);
+
+	return true;
 }
 
 bool CGrabber::Run()
@@ -178,6 +180,7 @@ bool CGrabber::Run()
     	delete m_framegrabber;
     	delete m_frameImage;
     }  
+    return true;
 }
 
 bool CGrabber::SendRGB(int sync, int* outputused, int cluster_leds = 1)

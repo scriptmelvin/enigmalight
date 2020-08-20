@@ -35,4 +35,6 @@ bool CRgbTest::Run()
             sleep(1);
             
       }
-}            
+      return true;
+}
+
