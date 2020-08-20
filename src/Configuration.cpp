@@ -484,7 +484,7 @@ bool CConfig::CheckLightConfig()
       }
       else if (key == "position")
       {
-        if(value.size() < 1 or value != "left" && value != "top" && value != "right" && value != "bottom"){
+        if(value.size() < 1 or (value != "left" && value != "top" && value != "right" && value != "bottom")){
             LogError("%s line %i section [light]: position (%s) must be [left, top, right or bottom]", m_filename.c_str(), linenr, value.c_str());
             valid = false;
         }

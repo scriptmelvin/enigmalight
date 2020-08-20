@@ -249,7 +249,7 @@ void CFlagManager::ParseFlags(int tempargc, char** tempargv)
     }
     else if (c == 'w') // mode
     {  
-      if (!HexStrToInt(optarg, m_color) || m_color & 0xFF000000)
+      if (!HexStrToInt(optarg, m_color) || (m_color & 0xFF000000))
       {
           throw string("wrong value " + string(optarg) + " for color");
       }
