@@ -228,8 +228,8 @@ msgid "- Daemon port:"
 msgstr "- Port du démon:"
 
 #: EL_Settings.py:217
-msgid "- Debug-Logging > /tmp/enigmalight_gui.log:"
-msgstr "- Débogage-journalisation >  /tmp/enigmalight_gui.log:"
+msgid "- Debug-Logging > /tmp/enigmalight/enigmalight_gui.log:"
+msgstr "- Débogage-journalisation >  /tmp/enigmalight/enigmalight_gui.log:"
 
 #: EL_Settings.py:179
 msgid "- Default lightmode:"

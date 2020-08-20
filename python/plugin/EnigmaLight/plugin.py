@@ -45,7 +45,7 @@ controller.start()
 
 #remove old files
 rmFile(getCrashFilePath())
-rmFile("/tmp/enigmalight_gui.log")
+rmFile("/tmp/enigmalight/enigmalight_gui.log")
 
 #check if enigmalight is pointed to good OE Version, if not then make the link
 checkSymbolic()

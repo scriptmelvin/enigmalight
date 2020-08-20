@@ -222,9 +222,9 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 		if config.plugins.enigmalight.showstatusbar.getValue():
 			self.cfglist.append(getConfigListEntry(_("- Remove statusbar from tuningscreen:"), config.plugins.enigmalight.showstatusbar_tuning, _("Remove the statusbar from colortuning screen")))
 		self.cfglist.append(getConfigListEntry(_("- Show errormessages:"), config.plugins.enigmalight.message_error_onoff, _("Turn on if you want to see error information")))
-		self.cfglist.append(getConfigListEntry(_("- Debug-Logging > /tmp/enigmalight_gui.log:"), config.plugins.enigmalight.EnableEventLog, ""))
+		self.cfglist.append(getConfigListEntry(_("- Debug-Logging > /tmp/enigmalight/enigmalight_gui.log:"), config.plugins.enigmalight.EnableEventLog, ""))
 
-		#	self.cfglist.append(getConfigListEntry(_("- Log folder path:"), config.plugins.enigmalight.logfolderpath, _("Default log wil be saved at /tmp/enigmalight_gui.log")))
+		#	self.cfglist.append(getConfigListEntry(_("- Log folder path:"), config.plugins.enigmalight.logfolderpath, _("Default log wil be saved at /tmp/enigmalight/enigmalight_gui.log")))
 		#	self.cfglist.append(self.logfolderpath)
 
 		self["config"].list = self.cfglist

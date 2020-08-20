@@ -319,7 +319,7 @@ class Controller(threading.Thread):
 			s_command = "enigmalight -s " + host + ":" + port
 
 		if value == "configtest":
-			s_command = startcommand + " -c /tmp/enigmalight.conf.new"
+			s_command = startcommand + " -c /tmp/enigmalight/enigmalight.conf.new"
 
 		control = { 'command': command, 'value': value, 'startcommand': s_command}
 

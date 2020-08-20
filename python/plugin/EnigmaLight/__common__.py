@@ -109,12 +109,12 @@ def EnigmaLight_log(level="", parent=None,string=""):
 					print ("[EnigmaLight] [" + level + "] " + str(out))
 
 					if config.plugins.enigmalight.EnableEventLog.value != "1":
-						f = open("/tmp/enigmalight_gui.log","a")
+						f = open("/tmp/enigmalight/enigmalight_gui.log","a")
 						try:
 							if string == None:
 								string = ""
 
-							f.write(strftime("%H:%M:%S") + " [%s] %s\r\n" % (str(level),str(out)))
+							f.write(strftime("%H:%M:%S") + " [%s] %s\n" % (str(level),str(out)))
 						finally:
 							f.close()
 

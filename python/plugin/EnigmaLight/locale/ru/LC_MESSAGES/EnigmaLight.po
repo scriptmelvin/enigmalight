@@ -143,8 +143,8 @@ msgstr "- Файл конфигурации"
 msgid "- Daemon port:"
 msgstr "- Порт даймона:"
 
-msgid "- Debug-Logging > /tmp/enigmalight_gui.log:"
-msgstr "- Лог отладки > /tmp/enigmalight_gui.log:"
+msgid "- Debug-Logging > /tmp/enigmalight/enigmalight_gui.log:"
+msgstr "- Лог отладки > /tmp/enigmalight/enigmalight_gui.log:"
 
 msgid "- Default lightmode:"
 msgstr "- Дефолтный режим огней:"

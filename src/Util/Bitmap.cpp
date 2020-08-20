@@ -162,7 +162,7 @@ void CBitmap::SaveImage()
 
   //Set filename
   char filename [50]; // stores the filename
-  sprintf (filename, "/tmp/enigmalight_%04d.bmp", filename_count++);
+  sprintf (filename, "/tmp/enigmalight/enigmalight_%04d.bmp", filename_count++);
 
   Log("Bitmap saved to %s (%dx%d)",filename, m_xres, m_yres);   
 

@@ -601,14 +601,14 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				# Prefix calculation [This only works for arduino boards]
 				#
 
-				os.system("/usr/bin/elightprefix "+str(total_lights)+" > /tmp/prefix.txt")
+				os.system("/usr/bin/elightprefix "+str(total_lights)+" > /tmp/enigmalights/prefix.txt")
 
-				fo = open("/tmp/prefix.txt", "r")
+				fo = open("/tmp/enigmalight/prefix.txt", "r")
 				reading = fo.read(1000)
 				fo.close()
 
 				# remove tmpfile
-				os.system("rm /tmp/prefix.txt")
+				os.system("rm /tmp/enigmalight/prefix.txt")
 
 				reading = reading.split("LEDS:  ")
 				if len(reading) > 1:
@@ -663,7 +663,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 
 			fo = None
 
-			fo = open("/tmp/enigmalight.conf.new", "wb")
+			fo = open("/tmp/enigmalight/enigmalight.conf.new", "wb")
 
 			fo.write("[global]\n")
 			fo.write("interface 127.0.0.1\n")
@@ -1117,9 +1117,9 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 	def MovetoEtc(self, confirmed, message = False):
 		log("",self)
 		if confirmed:
-			exists = os.path.isfile("/tmp/enigmalight.conf.new")
+			exists = os.path.isfile("/tmp/enigmalight/enigmalight.conf.new")
 			if exists:
-				os.system("mv /tmp/enigmalight.conf.new /etc/enigmalight.conf")
+				os.system("mv /tmp/enigmalight/enigmalight.conf.new /etc/enigmalight.conf")
 				if message:
 					self.session.open(MessageBox, _("enigmalight.conf succesfull saved in /etc/"), MessageBox.TYPE_INFO, timeout=4)
 		self.createfile = False

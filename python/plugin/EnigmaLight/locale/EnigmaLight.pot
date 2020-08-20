@@ -210,7 +210,7 @@ msgid "- Daemon port:"
 msgstr ""
 
 #: EL_Settings.py:217
-msgid "- Debug-Logging > /tmp/enigmalight_gui.log:"
+msgid "- Debug-Logging > /tmp/enigmalight/enigmalight_gui.log:"
 msgstr ""
 
 #: EL_Settings.py:179
