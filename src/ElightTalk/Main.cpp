@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     {
         ParseFlags(argc, argv);
     }
-    catch (string error)
+    catch (const string& error)
     {
         PrintError(error);
         PrintHelpMessage();

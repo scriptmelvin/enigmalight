@@ -108,7 +108,7 @@ void CMainLoop::Process()
 	{
 		m_flagmanager.ParseEnigmaLightOptions(m_enigmalight);
 	}
-	catch (string error)
+	catch (const string& error)
 	{
 		PrintError(error);
 		g_stop=true;
