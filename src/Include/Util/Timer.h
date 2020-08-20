@@ -31,7 +31,7 @@ class CTimer
   public:
     CTimer(volatile bool* stop = NULL);
     void SetInterval(int64_t usecs);
-    virtual void Wait();
+    void Wait();
     void Reset();
 
     int64_t GetInterval();

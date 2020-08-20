@@ -53,7 +53,7 @@ class CTcpSocket //base class
 {
   public:
     CTcpSocket();
-    ~CTcpSocket();
+    virtual ~CTcpSocket();
 
     virtual int Open(std::string address, int port, int usectimeout = -1);
     void Close();

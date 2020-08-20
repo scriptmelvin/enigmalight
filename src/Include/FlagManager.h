@@ -95,7 +95,7 @@ class CFlagManager
     std::string  m_straddress;                              //place to store address to connect to, because CArguments deletes argv
 
     //gets called after getopt
-    virtual void PostGetopt(int optind, int argc, char** argv) {};
+    void PostGetopt(int optind, int argc, char** argv) {};
 };
 
 #endif //FLAGMANAGER
