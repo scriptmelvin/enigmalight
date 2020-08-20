@@ -75,7 +75,7 @@ bool CFrameGrabber::Setup()
 			mem_fd = open("/dev/mem", O_RDWR | O_SYNC);
 			if (mem_fd < 0) {
 				LogError("Can't open memory....");
-				return false;
+				exit(0);
 			}
 		}
 

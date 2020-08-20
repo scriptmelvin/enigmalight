@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #include "Util/Inclstdint.h"
 #include "StbDetection/StbDetection.h"
 
@@ -49,7 +49,7 @@ bool CStb::DetectSTB()
 	if (!pipe)
 	{
 		Log("No framebuffer, unknown STB .. quit.");
-		return false;
+		exit(0);
 	}
 	stb_type = UNKNOWN;
 
