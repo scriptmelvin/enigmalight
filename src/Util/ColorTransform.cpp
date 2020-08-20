@@ -42,26 +42,30 @@ float* SwapRGB(int color_sequence, float* rgb)
 		case 1: //BGR
 			save   = rgb[0];
 			rgb[0] = rgb[2];
-			rgb[1] = rgb[1];
 			rgb[2] = save;
+			break;
 		case 2: //GBR
 			save   = rgb[0];
 			rgb[0] = rgb[1];
 			rgb[1] = rgb[2];
-			rgb[2] = save;     
+			rgb[2] = save;
+			break;
 		case 3: //GRB
 			save   = rgb[0];
 			rgb[0] = rgb[1];
 			rgb[1] = save;
+			break;
 		case 4: //BRG
 			save   = rgb[1];
 			rgb[0] = rgb[2];
 			rgb[1] = rgb[0];
 			rgb[2] = save;
+			break;
 		case 5: //RBG
 			save   = rgb[1];
 			rgb[1] = rgb[2];
 			rgb[2] = save;
+			break;
 		default: 
 			break;
 	}
