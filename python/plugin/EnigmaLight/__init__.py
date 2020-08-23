@@ -87,7 +87,7 @@ enigmalight_config = "/etc/enigma2/enigmalight_config"
 currentVersion  = "1.0-rc0"
 defaultURL  = "http://www.enigmalight.net/updates/"
 defaultUpdateXML= "update.xml"
-crashFile= "/tmp/enigmalight/enigmalight/enigmalight_gui_crash.txt"
+crashFile= "/tmp/enigmalight/enigmalight_gui_crash.txt"
 
 defaultPluginFolderPath = resolveFilename(SCOPE_PLUGINS, "Extensions/EnigmaLight/")
 defaultSkinsFolderPath= resolveFilename(SCOPE_PLUGINS, "Extensions/EnigmaLight/skins")
