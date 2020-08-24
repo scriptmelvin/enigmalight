@@ -1,27 +1,51 @@
-dnl Process this file with autoconf to produce a configure script.
+# -*- mode: m4; -*-
+# Process this file with autoconf to produce a configure script
 
-AC_INIT(EnigmaLight,rc3)
-
-AM_INIT_AUTOMAKE([foreign])
+AC_INIT([EnigmaLight],[rc4])
 AC_CONFIG_HEADERS([src/Include/Config.h])
-AC_CONFIG_MACRO_DIRS([m4])
-AM_MAINTAINER_MODE
+AC_CONFIG_MACRO_DIR([m4])
+
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_HEADER_STDC
-
-AC_ISC_POSIX
 AC_PROG_CXX
-AC_PROG_CC
-AM_PROG_LIBTOOL
-AC_SEARCH_LIBS([strerror],[cposix])
+AC_LANG([C++])
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AM_PROG_CC_C_O
+AM_PROG_AR
 PKG_PROG_PKG_CONFIG
 
+AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE
+LT_INIT
+
 dnl all use this
-AC_CHECK_LIB(pthread,[main])
-AC_CHECK_LIB(rt,[main])
-AC_CHECK_LIB(m,[main])
-AC_CHECK_LIB(dl,[main])
-AC_CHECK_DECL([clock_gettime], AC_DEFINE([HAVE_CLOCK_GETTIME], [1], [ ]), [], [[#include <time.h>]])
+AC_CHECK_LIB([pthread], [main],,)
+AC_CHECK_LIB([rt], [main],,)
+AC_CHECK_LIB([m], [main],,)
+AC_CHECK_LIB([dl], [main],,)
+AC_CHECK_DECL([clock_gettime], [AC_DEFINE([HAVE_CLOCK_GETTIME], [1], [ ])], [ ], [#include <time.h>])
+
+# Special check for pthread support
+AX_PTHREAD([
+ AC_DEFINE(HAVE_PTHREAD, 1,
+  [Define if you have POSIX threads libraries and header files.])
+],[
+ AC_MSG_ERROR([POSIX thread support required])
+])
+
+CC="$PTHREAD_CC"
+
+AC_SUBST(PTHREAD_LIBS)
+AC_SUBST(PTHREAD_CFLAGS)
+
+# check for pthread_cancel()
+saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+AC_CHECK_FUNCS(pthread_cancel)
+CFLAGS="$saved_CFLAGS"
 
 # --disable-libusb
 AC_ARG_ENABLE(libusb,
@@ -44,10 +68,12 @@ if test "x$use_libusb" != xno ; then
 
     CPPFLAGS="$CPPFLAGS $LIBUSB_CFLAGS"
     LIBS="$LDFLAGS $LIBUSB_LIBS"
+    CPPFLAGS="$CPPFLAGS $LIBUSB_CFLAGS"
+	LIBS="$LDFLAGS $LIBUSB_LIBS"
 
     AC_CHECK_LIB([usb-1.0],[main],AC_DEFINE([HAVE_LIBUSB], [1], [ ]))
     AC_CHECK_LIB([usb-1.0],[libusb_error_name],AC_DEFINE([HAVE_LIBUSB_ERROR_NAME], [1], [ ]))
-    AC_CHECK_HEADERS(libusb.h, [],
+    AC_CHECK_HEADER(libusb.h, [],
         [ AC_MSG_ERROR([libusb.h not found, install libusb or use LIBUSB_CFLAGS=... ./configure ]) ])
 
     AC_MSG_CHECKING([for libusb_init])
@@ -63,7 +89,30 @@ AC_SUBST(LIBUSB_CFLAGS)
 AC_SUBST(LIBUSB_LIBS)
 AM_CONDITIONAL(WITH_LIBUSB, test "${use_libusb}" != "no")
 
-AC_OUTPUT([
+# C Compiler features
+AC_C_INLINE
+if test "$GCC" = "yes"; then
+    CFLAGS="-Wall -fno-common $CFLAGS"
+fi
+
+# check if the compiler support -fvisibility=hidden (GCC >= 4)
+saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -fvisibility=hidden"
+AC_MSG_CHECKING([for -fvisibility=hidden])
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([char foo;])],
+    [	AC_MSG_RESULT([yes])
+	SYMBOL_VISIBILITY="-fvisibility=hidden" ],
+    AC_MSG_RESULT([no]))
+CFLAGS="$saved_CFLAGS"
+AC_SUBST(SYMBOL_VISIBILITY)
+
+AC_SEARCH_LIBS([dlopen], [dl dld], [], [
+  AC_MSG_ERROR([unable to find the dlopen() function])
+])
+
+AC_CONFIG_FILES([
 Makefile
 src/Makefile
 ])
+
+AC_OUTPUT
