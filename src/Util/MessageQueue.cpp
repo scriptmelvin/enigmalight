@@ -92,7 +92,7 @@ void CMessageQueue::AddData(char* data, int size)
   strdata[size] = 0;
   AddData(strdata);
 
-  delete strdata;
+  delete [] strdata;
 }
 
 void CMessageQueue::Clear()
