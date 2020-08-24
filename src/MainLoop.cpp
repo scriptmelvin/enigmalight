@@ -753,7 +753,7 @@ bool CMainLoop::ParseSetLight(CClient* client, const char* message, CMessage& me
 	std::string lightName(light);
     
 	//delete char
-	delete(light);
+	delete [] light;
   
 	int lightnr = client->LightNameToInt(lightName);
 
