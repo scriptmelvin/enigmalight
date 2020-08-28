@@ -214,6 +214,11 @@ bool CStb::DetectSTB()
 					stb_type = BRCM7252;
 					break;
 				}
+				else if (strstr(buf,"7278"))
+				{
+					stb_type = BRCM7278;
+					break;
+				}
 				else if (strstr(buf,"7444"))
 				{
 					stb_type = BRCM7444;
@@ -397,6 +402,7 @@ bool CStb::DetectSTB()
 		case BRCM7376:
 		case BRCM7251:
 		case BRCM7252:
+		case BRCM7278:
 		case BRCM7444:
 			registeroffset = 0xf0600000;
 			chr_luma_stride = 0x80;

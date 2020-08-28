@@ -62,6 +62,7 @@
 // arm box
 #define BRCM7251   7251
 #define BRCM7252   7252
+#define BRCM7278   7278
 #define BRCM7444   7444
 #define BRCM7376   7376
 // /tmp/chipset
