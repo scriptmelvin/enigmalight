@@ -87,4 +87,5 @@ Makefile
 
 src/elighttalk
 src/enigmalight
+src/elightprefix
 src/Include/Config.h*
