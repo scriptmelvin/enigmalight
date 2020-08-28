@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/nickersk/enigmalight.svg?branch=4.4)](https://travis-ci.org/nickersk/enigmalight)
 
 Enigmalight - Copyright (C) 2015 Martijn Vos
 
