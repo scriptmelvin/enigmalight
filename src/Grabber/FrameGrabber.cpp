@@ -173,7 +173,7 @@ bool CFrameGrabber::grabFrame(CBitmap* bitmap, int skiplines)
     //
     // Get data from decoder, offset, adres and stride(x resolution)
     //
-	if (m_stb.stb_type == BRCM73565 || m_stb.stb_type == BRCM73625 || m_stb.stb_type == BRCM7376 || m_stb.stb_type == BRCM7251 || m_stb.stb_type == BRCM7252 || m_stb.stb_type == BRCM7444 || m_stb.stb_type == TEST1 || m_stb.stb_type == TEST2 || m_stb.stb_type == TEST3 || m_stb.stb_type == TEST4 || m_stb.stb_type == TEST6 || m_stb.stb_type == TEST7 || m_stb.stb_type == TEST8) {
+	if (m_stb.stb_type == BRCM73565 || m_stb.stb_type == BRCM73625 || m_stb.stb_type == BRCM7376 || m_stb.stb_type == BRCM7251 || m_stb.stb_type == BRCM7252 || m_stb.stb_type == BRCM7278 || m_stb.stb_type == BRCM7444 || m_stb.stb_type == TEST1 || m_stb.stb_type == TEST2 || m_stb.stb_type == TEST3 || m_stb.stb_type == TEST4 || m_stb.stb_type == TEST6 || m_stb.stb_type == TEST7 || m_stb.stb_type == TEST8) {
 		// Parameter for ARM
 		ofs 	= data[m_stb.chr_luma_register_offset + 24] << 4;      /* luma lines */
 		ofs2 	= data[m_stb.chr_luma_register_offset + 28] << 4;    /* chroma lines */	
