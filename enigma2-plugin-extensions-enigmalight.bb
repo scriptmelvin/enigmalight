@@ -1,7 +1,7 @@
 DESCRIPTION = "An Ambilight clone for broadcom based linux receivers."
 HOMEPAGE = "https://github.com/Dima73/enigmalight"
 LICENSE = "GPLv3"
-LIC_FILES_CHKSUM = "file://README;md5=93285fcad54271879db50c1fbf22d98b"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=156f94b2a67a05ad45ff99bec65b2c81"
 
 DEPENDS += "libusb1"
 RRECOMMENDS_${PN} = "python-cheetah libusb1 kernel-module-cdc-acm kernel-module-ftdi-sio kernel-module-usbserial kernel-module-ch341 curl"
