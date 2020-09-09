@@ -55,6 +55,9 @@ Makefile
 # Prerequisites
 *.d
 
+# Compiled python files
+*.pyo
+
 # Compiled Object files
 *.slo
 *.lo
