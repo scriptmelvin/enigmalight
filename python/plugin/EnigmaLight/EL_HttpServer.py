@@ -18,11 +18,11 @@ from twisted.internet import reactor, ssl
 from twisted.internet.error import CannotListenError
 from twisted.web import server, http, static, resource, error
 
-from remote.root import RootController
+from .remote.root import RootController
 from socket import gethostname, has_ipv6
 
 from twisted.internet.protocol import Factory, Protocol
-from __common__ import EnigmaLight_log as log, rgbToHex, showMessage, showError
+from .__common__ import EnigmaLight_log as log, rgbToHex, showMessage, showError
 
 import os
 import imp
@@ -106,5 +106,5 @@ def BJregisterService(protocol, port):
 		bonjour.registerService(service, True)
 		return True
 
-	except ImportError, e:
+	except ImportError as e:
 		return False

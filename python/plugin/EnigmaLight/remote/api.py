@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from control import WebController
+from .control import WebController
 
 class ApiController(WebController):
 	def __init__(self, session, path = ""):

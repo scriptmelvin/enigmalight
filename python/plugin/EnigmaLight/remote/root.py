@@ -11,12 +11,12 @@
 
 from Tools.Directories import fileExists
 
-from models.info import getBasePath, getPublicPath, getViewsPath
+from .models.info import getBasePath, getPublicPath, getViewsPath
 
-from base import BaseController
-from control import WebController
-from ajax import AjaxController
-from api import ApiController
+from .base import BaseController
+from .control import WebController
+from .ajax import AjaxController
+from .api import ApiController
 
 from twisted.web import static, http
 
@@ -48,7 +48,7 @@ class RootController(BaseController):
 	# example http://boxip/index => P_index
 	def P_index(self, request):
 		mode = ''
-		if "mode" in request.args.keys():
+		if "mode" in list(request.args.keys()):
 			mode = request.args["mode"][0]
 		uagent = request.getHeader('User-Agent')
 		return {}

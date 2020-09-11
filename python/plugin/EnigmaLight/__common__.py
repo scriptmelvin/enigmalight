@@ -37,7 +37,7 @@ from skin import loadSkin, readSkin
 from Components.config import config
 from Components.AVSwitch import AVSwitch
 
-from EL_Helper_Singleton import Singleton
+from .EL_Helper_Singleton import Singleton
 from . import _
 
 vu4k = False
@@ -106,7 +106,7 @@ def EnigmaLight_log(level="", parent=None,string=""):
 						out = str(parent) + str(string)
 				
 				if level == "D":
-					print ("[EnigmaLight] [" + level + "] " + str(out))
+					print(("[EnigmaLight] [" + level + "] " + str(out)))
 
 					if config.plugins.enigmalight.EnableEventLog.value != "1":
 						f = open("/tmp/enigmalight/enigmalight_gui.log","a")
@@ -119,7 +119,7 @@ def EnigmaLight_log(level="", parent=None,string=""):
 							f.close()
 
 			except IOError:
-				print "",strftime("%H:%M:%S"),"Logging-Error"
+				print("",strftime("%H:%M:%S"),"Logging-Error")
 
 #===============================================================================
 # 
@@ -134,12 +134,12 @@ def testInetConnectivity(target="http://www.google.com"):
 
 	EnigmaLight_log("",None," __common__::testInetConnectivity()")
 
-	import urllib2
+	import urllib.request, urllib.error, urllib.parse
 	from sys import version_info
 	import socket
 
 	try:
-		opener = urllib2.build_opener()
+		opener = urllib.request.build_opener()
 
 		if version_info[1] >= 6:
 			page = opener.open(target, timeout=2)
@@ -175,7 +175,7 @@ def testDaemonConnectivity(ip, port):
 		sock.connect((ip, port))
 		sock.close() 
 		return True
-	except socket.error, e:
+	except socket.error as e:
 		sock.close()
 
 		return False
@@ -246,7 +246,7 @@ def checkDirectory(directory):
 		if not os.path.exists(directory):
 			os.makedirs(directory)
 
-	except Exception, ex:
+	except Exception as ex:
 		pass
 
 #===============================================================================
@@ -306,7 +306,7 @@ def getBoxInformation():
 			brand = "Xtrend"
 		elif model.startswith("ini"):
 			if model.endswith("9000ru"):
- 				brand = "Sezam"
+				brand = "Sezam"
 				model = "Marvel"
 			elif model.endswith("5000ru"):
 				brand = "Sezam"
@@ -344,7 +344,7 @@ def getBoxInformation():
 			model = model.replace(" ", "")
 		elif model.startswith("formuler"):
 			brand = "Formuler"
- 		f.close()
+		f.close()
 	elif fileExists("/proc/stb/info/vumodel") and not fileExists("/proc/stb/info/boxtype"):
 		brand = "VuPlus"
 		f = open("/proc/stb/info/vumodel",'r')
@@ -511,7 +511,7 @@ def LinkFile(src, dst):
 		if (os.symlink(src, dst)):
 			EnigmaLight_log("__common__::LinkFile() > Create symlink: Done!")
 
-	except Exception, e:
+	except Exception as e:
 		raise
 
 def DeleteLink(dst):
@@ -520,7 +520,7 @@ def DeleteLink(dst):
 			EnigmaLight_log("",None,"__common__::DeleteLink() > Delete symlink. "+ dst)
 			if os.unlink(dst):
 					EnigmaLight_log("",None,"__common__::DeleteLink() > Delete Done!")
-	except Exception, e:
+	except Exception as e:
 		raise
 
 #===============================================================================

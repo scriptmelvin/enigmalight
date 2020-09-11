@@ -30,10 +30,10 @@ from Components.ActionMap import ActionMap
 from Components.FileList import FileList
 from Components.Label import Label
 
-from EL_ViewFactory import getGuiElements
+from .EL_ViewFactory import getGuiElements
 
-from __common__ import EnigmaLight_log as log
-from __init__ import _ # _ is translation
+from .__common__ import EnigmaLight_log as log
+from .__init__ import _ # _ is translation
 
 #===========================================================================
 # 

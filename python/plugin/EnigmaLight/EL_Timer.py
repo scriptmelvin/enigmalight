@@ -7,16 +7,16 @@
 */
 
 """
-from __init__ import _
-import sys, time, socket, os, commands, threading
+from .__init__ import _
+import sys, time, socket, os, subprocess, threading
 from time import sleep
 from Screens.MessageBox import MessageBox
 from Components.ConfigList import ConfigListScreen
 from Components.config import *
 from enigma import eConsoleAppContainer
 
-from __common__ import EnigmaLight_log as log
-from __init__ import _ # _ is translation
+from .__common__ import EnigmaLight_log as log
+from .__init__ import _ # _ is translation
 
 class ELightTimer(threading.Thread):
 

@@ -27,8 +27,8 @@ You should have received a copy of the GNU General Public License
 from enigma import eTimer
 from Components.Label import MultiColorLabel
 from skin import parseColor
-from __common__ import EnigmaLight_log as log
-from EL_Helper_Singleton import Singleton
+from .__common__ import EnigmaLight_log as log
+from .EL_Helper_Singleton import Singleton
 
 class EL_Helper_HorizontalMenu(object):
 

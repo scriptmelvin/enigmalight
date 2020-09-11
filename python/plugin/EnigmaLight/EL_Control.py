@@ -23,19 +23,19 @@ You should have received a copy of the GNU General Public License
 # IMPORT
 #===============================================================================
 
-import sys, time, socket, os, threading, commands
+import sys, time, socket, os, threading, subprocess
 from threading import Thread
 
 from Components.Console import Console
 from Screens import Standby
 from Components.ConfigList import ConfigListScreen
 from Components.config import config, configfile, getConfigListEntry, ConfigFloat, ConfigSubsection, ConfigEnableDisable, ConfigSelection, ConfigSlider, ConfigDirectory, ConfigOnOff, ConfigNothing, ConfigInteger, ConfigYesNo
-from EL_Socket import EL_Socket
-from EL_HttpServer import HttpdStart, HttpdStop
+from .EL_Socket import EL_Socket
+from .EL_HttpServer import HttpdStart, HttpdStop
 
-from __common__ import EnigmaLight_log as log, rgbToHex, showMessage, showError
+from .__common__ import EnigmaLight_log as log, rgbToHex, showMessage, showError
 
-from __init__ import getCrashFilePath, _ # _ is translation
+from .__init__ import getCrashFilePath, _ # _ is translation
 
 elightconf_notfound = _("File /etc/enigmalight.conf not found.")
 
@@ -254,7 +254,7 @@ class Controller(threading.Thread):
 	def getCpu(self):
 		#log("",self)
 		try:
-			cpu = commands.getstatusoutput('top -n1 | grep "enigmalight" | awk \'{print $7}\'')
+			cpu = subprocess.getstatusoutput('top -n1 | grep "enigmalight" | awk \'{print $7}\'')
 			cpu_split = str(cpu).split("'")
 			cpu = cpu_split[1][:3]#remove new line and other stuff
 			cpu = cpu.replace("\\","")
@@ -393,9 +393,7 @@ class Controller(threading.Thread):
 
 		if error is False:
 			try:
-			
 				if control['value'] == "stop":
-					
 					self.setStatusBarInfo(_("Stop lights.."))
 
 					if config.plugins.enigmalight.server.value is True and config.plugins.enigmalight.network_onoff.value == False:
@@ -409,8 +407,8 @@ class Controller(threading.Thread):
 						data = "set mode stop\n"
 						self.sockClass.setCommand(data)
 					if config.plugins.enigmalight.message_onoff.getValue():
-						showMessage(self.session,_("Control: Lights disabled."),"I")
-				
+						showMessage(self.session,_("Control: Lights disabled."), b"I")
+
 				elif control['value'] == "dynamic":
 
 					self.setStatusBarInfo(_("Start lights.."))
@@ -418,7 +416,7 @@ class Controller(threading.Thread):
 					ret = self.controlMode()
 
 					if config.plugins.enigmalight.message_onoff.getValue():
-						showMessage(self.session,_("Control: Lights enabled."),"I")
+						showMessage(self.session,_("Control: Lights enabled."), b"I")
 
 				elif control['value'] == "configtest":
 
@@ -428,7 +426,7 @@ class Controller(threading.Thread):
 					ret = self.sockClass.setCommand(data) #3 test
 
 					if config.plugins.enigmalight.message_onoff.getValue():
-						showMessage(self.session,_("Control: Lights enabled, mode[test]"),"I")
+						showMessage(self.session,_("Control: Lights enabled, mode[test]"), b"I")
 
 				elif control['value'] == "server":
 

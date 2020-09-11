@@ -23,9 +23,9 @@ You should have received a copy of the GNU General Public License
 #=================================
 import copy
 
-from EL_Helper_Singleton import Singleton
+from .EL_Helper_Singleton import Singleton
 
-from __common__ import EnigmaLight_log as log
+from .__common__ import EnigmaLight_log as log
 
 
 def translateValues(value):

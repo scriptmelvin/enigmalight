@@ -26,12 +26,12 @@ from Plugins.Plugin import PluginDescriptor
 
 from Components.config import config, configfile
 from . import _
-from __init__ import getCrashFilePath, Prepare, _ # _ is translation
-from __common__ import checkSymbolic, showError, rmFile, EnigmaLight_log as log
+from .__init__ import getCrashFilePath, Prepare, _ # _ is translation
+from .__common__ import checkSymbolic, showError, rmFile, EnigmaLight_log as log
 
-from EL_Control import Controller
-from EL_Timer import ELightTimer
-from EL_About import EL_Screen_About
+from .EL_Control import Controller
+from .EL_Timer import ELightTimer
+from .EL_About import EL_Screen_About
 
 m_session = None
 
@@ -75,7 +75,7 @@ def sessionstart(reason, **kwargs):
 def EnigmaLight_MainMenu(*args, **kwargs):
 	try:
 		log("",None,"plugin::EnigmaLight_MainMenu() > MainMenu..")
-		import EL_MainMenu
+		from . import EL_MainMenu
 
 		log("",None,"plugin::EnigmaLight_MainMenu() > Set Instances..")
 		EL_MainMenu.TIMER_INSTANCE = timer

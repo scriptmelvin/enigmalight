@@ -36,16 +36,16 @@ from Components.Pixmap import Pixmap
 
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
-from EL_Control import Controller
+from .EL_Control import Controller
 
-from __common__ import EnigmaLight_log as log, showMessage, Clamp, getRGB
+from .__common__ import EnigmaLight_log as log, showMessage, Clamp, getRGB
 from . import _
-from __init__ import _ # _ is translation
+from .__init__ import _ # _ is translation
 
-from EL_PathSelector import EL_Screen_PathSelector
+from .EL_PathSelector import EL_Screen_PathSelector
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 #===============================================================================
 #
@@ -137,7 +137,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 			callOnMainThread(func)
 
 	def printWithThread(self,res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	def setStatusBarInfo(self,text):
 		#self.printWithThread("setStatusBarInfo())")

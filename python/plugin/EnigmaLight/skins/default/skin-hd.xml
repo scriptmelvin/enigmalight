@@ -1,5 +1,4 @@
-<skins>
-    
+<skin>
     <!-- MainMenu -->
     <screen name="EL_Screen_MainMenu" position="0,0" size="1280,720" title=" " backgroundColor="#ffffffff" flags="wfNoBorder">
 
@@ -8,15 +7,15 @@
 
         <!-- background -->
         <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/images/background-main-fs8.png" position="0,0" zPosition="-1" size="1280,720" alphatest="blend" />
-                		
+
         <!-- menu -->
         <widget source="menu" render="Listbox" position="10,232" size="1,1" zPosition="1">
             <convert type="TemplatedMultiContent">
                 {"template": [ MultiContentEntryText(pos = (10, 14), size = (390, 40), flags = RT_HALIGN_CENTER, text = 0) ], "fonts": [gFont("OpenSans", 35)], "itemHeight": 50 }
             </convert>
         </widget>
-		
-		<!-- moving targets -->
+
+        <!-- moving targets -->
         <widget name="-2" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="8" position="4,540"   size="250,50" font="OpenSans; 22" halign="center"/>
         <widget name="-1" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="8" position="252,540" size="250,50" font="OpenSans; 22" halign="center" />
         <widget name="0"  foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="8" position="500,540" size="250,50" font="OpenSans; 22" halign="center" />
@@ -41,20 +40,17 @@
         <widget name="btn_yellow" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/buttons/btn_yellow-fs8.png" zPosition="6" position="585,606" size="22,22" alphatest="blend"/>
         <widget name="txt_yellow" position="625,598" zPosition="9" size="300,37" font="OpenSans;16" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1"/>
 
-         <!-- moodlamp button 
+         <!-- moodlamp button -->
         <widget name="btn_yellow" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/buttons/btn_yellow-fs8.png" zPosition="6" position="745,606" size="22,22" alphatest="blend"/>
-        <widget name="txt_yellow" position="785,598" zPosition="9" size="150,37" font="OpenSans;16" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1"/>-->
+        <widget name="txt_yellow" position="785,598" zPosition="9" size="150,37" font="OpenSans;16" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1"/>
 
          <!-- Statusbar -->
         <widget name="statusbar" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/images/statusbar-fs8.png" zPosition="10" position="0,670" size="1280,50" alphatest="blend"/>
         <widget name="txt_statusbar" transparent="1" zPosition="20" valign="center" position="28,686" size="950,30" font="OpenSans; 18" foregroundColor="#ffffff" backgroundColor="#000000" halign="left"/>
         <widget name="txt_statusbar_info" transparent="1" zPosition="20" valign="center" position="952,686" size="300,30" font="OpenSans; 18" foregroundColor="#ffffff" backgroundColor="#000000" halign="right"/>
-    </screen>    
+    </screen>
 
-    
     <!-- About -->
-
-
     <screen name="EL_Screen_About" position="0,0" size="1280,720" title=" " backgroundColor="#000000" flags="wfNoBorder">
 
         <!-- background -->
@@ -73,8 +69,6 @@
         <widget name="statusbar" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/images/statusbar-fs8.png" zPosition="10" position="0,670" size="1280,50" alphatest="blend"/>
         <widget name="txt_statusbar" transparent="1" zPosition="10" valign="center" position="28,686" size="950,30" font="OpenSans; 18" foregroundColor="#ffffff" backgroundColor="#000000" halign="left"/>
         <widget name="txt_statusbar_info" transparent="1" zPosition="10" valign="center" position="952,686" size="300,30" font="OpenSans; 18" foregroundColor="#ffffff" backgroundColor="#000000" halign="right"/>
-
-
     </screen>
 
 
@@ -194,7 +188,7 @@
         <!-- content -->
         <widget name="filelist" zPosition="10" position="172,50" size="930,326" scrollbarMode="showOnDemand" backgroundColor="#212121" transparent="1"/>
 
-         <!-- buttons -->
+        <!-- buttons -->
         <widget name="btn_red" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/buttons/btn_red-fs8.png" zPosition="6" position="160,548" size="22,22" alphatest="blend"/>
         <widget name="btn_redText" position="200,540" zPosition="9" size="200,37" font="OpenSans;16" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1"/>
 
@@ -204,7 +198,7 @@
     </screen>
 
     <screen name="EL_Screen_ConfigEditor" position="0,0" size="1280,720" title=" " flags="wfNoBorder" backgroundColor="#000000">  
-        
+
         <!-- background -->
         <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/images/background-editor-fs8.png" position="0,0" zPosition="1" size="1280,720" transparent="0"/>
 
@@ -226,7 +220,7 @@
         <widget name="pic_floor" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/images/editor/tv-floorstand.png" position="821,415" size="289,28" zPosition="5" transparent="1" alphatest="blend"/>
 
         <widget name="infoblock" position="700,525" size="462,98" valign="center" halign="center" zPosition="11" foregroundColor="white" transparent="1" font="OpenSans;16"/>
-        
+
         <!-- buttons -->
         <widget name="btn_green" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/hd/buttons/btn_green-fs8.png" zPosition="6" position="135,592" size="22,22" alphatest="blend"/>
         <widget name="btn_greenText" position="175,584" zPosition="9" size="300,37" font="OpenSans;16" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1"/>
@@ -235,5 +229,4 @@
         <widget name="btn_yellowText" position="395,591" zPosition="9" size="200,44" font="OpenSans;16" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1"/>
 
         </screen>
-
-</skins>
+</skin>

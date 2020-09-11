@@ -20,7 +20,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 """
 
-from __common__ import EnigmaLight_log as log
+from .__common__ import EnigmaLight_log as log
 
 #===============================================================================
 # GLOBAL

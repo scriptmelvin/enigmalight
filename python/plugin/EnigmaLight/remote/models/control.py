@@ -10,7 +10,7 @@
 ##############################################################################
 from Components.config import config
 from enigma import eServiceReference, eActionMap, eServiceCenter
-from urllib import unquote
+from urllib.parse import unquote
 
 from Plugins.Extensions.EnigmaLight.__common__ import EnigmaLight_log as log, rgbToHex, showMessage, showError
 

@@ -39,16 +39,16 @@ from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Screens.Console import Console as SConsole
 
-from __common__ import showMessage, getBoxArch, EnigmaLight_log as log, testInetConnectivity
+from .__common__ import showMessage, getBoxArch, EnigmaLight_log as log, testInetConnectivity
 
 from . import _
-from __init__ import getCrashFilePath, getVersion, _ # _ is translation
+from .__init__ import getCrashFilePath, getVersion, _ # _ is translation
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 # Unfortunaly not everyone has twisted installed ...
 try:
 	from twisted.web.microdom import parseString
-except Exception, e:
+except Exception as e:
 	print("import twisted.web.microdom failed")
 
 #===============================================================================
@@ -79,7 +79,7 @@ class EL_Screen_Check(object):
 			self.url = config.plugins.enigmalight.url.value + config.plugins.enigmalight.updatexml.value
 			log("",self,"Checking URL: " + self.url) 
 			try:
-				f = urllib2.urlopen(self.url)
+				f = urllib.request.urlopen(self.url)
 				html = f.read()
 				dom = parseString(html)
 				update = dom.getElementsByTagName("update")[0]
@@ -156,7 +156,7 @@ class EL_Screen_Check(object):
 		if answer is True:
 			try:
 				self.session.open(TryQuitMainloop, 3)
-			except Exception, ex:
+			except Exception as ex:
 				log("",self,"Error: Exception -> " + str(ex))
 				data = "TryQuitMainLoop is not implemented in your OS.\n Please restart your box manually."
 				self.session.open(MessageBox, _("Information:\n") + data, MessageBox.TYPE_INFO)

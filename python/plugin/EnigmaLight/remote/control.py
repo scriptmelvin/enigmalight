@@ -13,10 +13,10 @@ from Plugins.Extensions.EnigmaLight.__init__ import _
 
 from Components.config import config
 
-from models.info import getFrontendStatus, getStatusInfo
-from models.control import setLightOn, setLightOff, setOption
+from .models.info import getFrontendStatus, getStatusInfo
+from .models.control import setLightOn, setLightOff, setOption
 
-from base import BaseController
+from .base import BaseController
 
 ### All functions in this python document will forwards the the above models ###
 
@@ -30,7 +30,7 @@ class WebController(BaseController):
 
 	def testMandatoryArguments(self, request, keys):
 		for key in keys:
-			if key not in request.args.keys():
+			if key not in list(request.args.keys()):
 				return {
 					"result": False,
 					"message": _("Missing mandatory parameter '%s'") % key
@@ -63,9 +63,9 @@ class WebController(BaseController):
 		return res
 
 	def P_option(self, request):
-		if "set" in request.args.keys():
+		if "set" in list(request.args.keys()):
 			return setOption(self.session, request, BaseController.instance)
-		elif "get" in request.args.keys():
+		elif "get" in list(request.args.keys()):
 			return getOptionValue(self.session, request, BaseController.instance)
 
 		res = {}
@@ -74,5 +74,5 @@ class WebController(BaseController):
 		return res
 		
 	def P_test(self, request):
-		print "instance = " + str(BaseController.instance)
-		print "instance.mode = " + str(BaseController.instance.current_mode)
+		print("instance = " + str(BaseController.instance))
+		print("instance.mode = " + str(BaseController.instance.current_mode))

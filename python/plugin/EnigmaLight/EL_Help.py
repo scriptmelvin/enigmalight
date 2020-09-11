@@ -29,12 +29,12 @@ from Components.Pixmap import Pixmap
 
 from Screens.Screen import Screen
 
-from __common__ import EnigmaLight_log as log
+from .__common__ import EnigmaLight_log as log
 from . import _
-from __init__ import _ # _ is translation
+from .__init__ import _ # _ is translation
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 #===============================================================================
 #
 #===============================================================================

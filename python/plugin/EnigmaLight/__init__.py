@@ -66,21 +66,19 @@ def _(txt):
 		text = gettext.gettext(txt)
 	return text
 
-from EL_Helper_Singleton import Singleton
+from .EL_Helper_Singleton import Singleton
 
-from __common__ import registerEnigmalightFonts, loadEnigmalightSkin, getBoxInformation , showError, EnigmaLight_log as log, getXmlContent
+from .__common__ import registerEnigmalightFonts, loadEnigmalightSkin, getBoxInformation , showError, EnigmaLight_log as log, getXmlContent
 
 #===============================================================================
 #
 #===============================================================================
 
-now = [x for x in localtime()]
-now[3] = 20
-now[4] = 00
-def_start = mktime(now)
-now[3] = 23
-now[4] = 00
-def_end = mktime(now)
+currenttime = localtime()
+primetime_start = (currenttime[0],currenttime[1],currenttime[2], 20, 00, 0, 0, 0, 0)
+primetime_end = (currenttime[0],currenttime[1],currenttime[2], 23, 00, 0, 0, 0, 0)
+def_start = mktime(primetime_start)
+def_end = mktime(primetime_end)
 
 # the currentVersion should be renewed every major update
 enigmalight_config = "/etc/enigma2/enigmalight_config"
@@ -154,12 +152,12 @@ config.plugins.enigmalight.standbymode = ConfigSelection(default = "0", choices 
 
 config.plugins.enigmalight.moodlamp_fader_brightness = ConfigSlider(default=100, increment=1, limits=(1,255))
 config.plugins.enigmalight.moodlamp_static_color_r = ConfigSlider(default=255, increment=1, limits=(0,255))
-config.plugins.enigmalight.moodlamp_static_color_g = ConfigSlider(default=025, increment=1, limits=(0,255))
-config.plugins.enigmalight.moodlamp_static_color_b = ConfigSlider(default=002, increment=1, limits=(0,255))
+config.plugins.enigmalight.moodlamp_static_color_g = ConfigSlider(default=0o25, increment=1, limits=(0,255))
+config.plugins.enigmalight.moodlamp_static_color_b = ConfigSlider(default=0o02, increment=1, limits=(0,255))
 
 config.plugins.enigmalight.moodlamp_static_color_r_int = ConfigInteger(default = 255, limits=(0, 255))
-config.plugins.enigmalight.moodlamp_static_color_g_int = ConfigInteger(default = 025, limits=(0, 255))
-config.plugins.enigmalight.moodlamp_static_color_b_int = ConfigInteger(default = 002, limits=(0, 255))
+config.plugins.enigmalight.moodlamp_static_color_g_int = ConfigInteger(default = 0o25, limits=(0, 255))
+config.plugins.enigmalight.moodlamp_static_color_b_int = ConfigInteger(default = 0o02, limits=(0, 255))
 
 config.plugins.enigmalight.address = ConfigIP(default=[127,0,0,1])
 config.plugins.enigmalight.android = ConfigOnOff(default=False)
@@ -355,7 +353,7 @@ config.plugins.enigmalight.laddress= ConfigInteger(6,(1, 9))
 config.plugins.enigmalight.output  = ConfigDirectory(default="/dev/ttyUSB0")
 config.plugins.enigmalight.threadpriority = ConfigInteger(99,(0, 99))
 
-config.plugins.enigmalight.rate= ConfigInteger(057600,(0, 500000))
+config.plugins.enigmalight.rate= ConfigInteger(0o57600,(0, 500000))
 config.plugins.enigmalight.lights_left = ConfigInteger(0,(0, 99))
 config.plugins.enigmalight.lights_top  = ConfigInteger(0,(0, 99))
 config.plugins.enigmalight.lights_right= ConfigInteger(0,(0, 99))

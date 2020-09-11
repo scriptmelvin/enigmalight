@@ -23,12 +23,12 @@ You should have received a copy of the GNU General Public License
 # IMPORT
 #===============================================================================
 
-import sys, time, os, threading, thread
+import sys, time, os, threading, _thread
 import socket
 from Components.ConfigList import ConfigListScreen
 from Components.config import config, configfile, getConfigListEntry, ConfigFloat, ConfigSubsection, ConfigEnableDisable, ConfigSelection, ConfigSlider, ConfigDirectory, ConfigOnOff, ConfigNothing, ConfigInteger, ConfigYesNo
-from __common__ import EnigmaLight_log as log
-from __init__ import _ # _ is translation
+from .__common__ import EnigmaLight_log as log
+from .__init__ import _ # _ is translation
 
 HOST = '127.0.0.1' #Local
 PORT = 6767
@@ -54,7 +54,7 @@ class EL_Socket(object):
 				dsock.settimeout(5)
 				dsock.connect((host, port))
 				return True
-			except Exception, e:
+			except Exception as e:
 				return False
 			finally:
 				if dsock != None:
@@ -80,7 +80,7 @@ class EL_Socket(object):
 				self.sock.settimeout(2)
 				self.sock.connect((HOST, PORT))
 				self.connected = True
-			except socket.error, msg:
+			except socket.error as msg:
 				log("E",self,"Exception(" + str(type(msg)) + "): " + str(msg))
 				if self.sock != None:
 					self.sock.close()
@@ -102,7 +102,7 @@ class EL_Socket(object):
 				returned = str(self.sock.recv(1024))
 				log("E",self,"returned: %s " % (returned))
 
-			except socket.error, msg:
+			except socket.error as msg:
 				log("E",self,"Exception(" + str(type(msg)) + "): " + str(msg))
 				returned = None
 			finally:			
@@ -124,7 +124,7 @@ class EL_Socket(object):
 				#returned = str(self.sock.recv(1024))
 				#log("",self,"returned: %s " % (returned))
 				returned = 1
-			except socket.error, msg:
+			except socket.error as msg:
 				log("E",self,"Exception(" + str(type(msg)) + "): " + str(msg))
 				returned = None
 			finally:			

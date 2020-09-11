@@ -34,24 +34,24 @@ from Components.Pixmap import Pixmap
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 
-from EL_Settings import EL_Screen_Settings
-from EL_Tuning import EL_Screen_Tuning
-from EL_Moodlamp import EL_Screen_Moodlamp
-from EL_About import EL_Screen_About
-from EL_Help import EL_Screen_Help
-from EL_ConfigEditor import EL_Screen_ConfigEditor
+from .EL_Settings import EL_Screen_Settings
+from .EL_Tuning import EL_Screen_Tuning
+from .EL_Moodlamp import EL_Screen_Moodlamp
+from .EL_About import EL_Screen_About
+from .EL_Help import EL_Screen_Help
+from .EL_ConfigEditor import EL_Screen_ConfigEditor
 
-from EL_Helper_MovingLabel import EL_Helper_HorizontalMenu
-from EL_Helper_Singleton import Singleton
-from EL_Check import EL_Screen_Check
+from .EL_Helper_MovingLabel import EL_Helper_HorizontalMenu
+from .EL_Helper_Singleton import Singleton
+from .EL_Check import EL_Screen_Check
 
-from __common__ import checkSymbolic, EnigmaLight_log as log, showMessage, showError
-from __plugin__ import Plugin
+from .__common__ import checkSymbolic, EnigmaLight_log as log, showMessage, showError
+from .__plugin__ import Plugin
 from . import _
-from __init__ import getCrashFilePath, _ # _ is translation
+from .__init__ import getCrashFilePath, _ # _ is translation
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 TIMER_INSTANCE = None
 CONTROLLER_INSTANCE = None
@@ -244,7 +244,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			callOnMainThread(func)
 
 	def printWithThread(self,res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	def setStatusBarInfo(self,text):
 		#self.printWithThread("setStatusBarInfo())")

@@ -30,11 +30,11 @@ from Components.Pixmap import Pixmap
 
 from Screens.Screen import Screen
 
-from __common__ import EnigmaLight_log as log
-from __init__ import getBoxInformation, getVersion, _ # _ is translation
+from .__common__ import EnigmaLight_log as log
+from .__init__ import getBoxInformation, getVersion, _ # _ is translation
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 #===============================================================================
 #
@@ -106,7 +106,7 @@ class EL_Screen_About(Screen):
 			callOnMainThread(func)
 
 	def printWithThread(self,res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	def setStatusBarInfo(self,text):
 		#self.printWithThread("setStatusBarInfo())")

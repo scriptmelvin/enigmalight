@@ -36,14 +36,14 @@ from Components.AVSwitch import AVSwitch
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 
-from __common__ import EnigmaLight_log as log, showMessage, validIP, Clamp, getAspect
+from .__common__ import EnigmaLight_log as log, showMessage, validIP, Clamp, getAspect
 from . import _
-from __init__ import getCrashFilePath, _ # _ is translation
+from .__init__ import getCrashFilePath, _ # _ is translation
 
-from EL_PathSelector import EL_Screen_PathSelector
+from .EL_PathSelector import EL_Screen_PathSelector
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 #===============================================================================
 #
@@ -151,7 +151,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			callOnMainThread(func)
 
 	def printWithThread(self,res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	def setStatusBarInfo(self,text):
 		#self.printWithThread("setStatusBarInfo())")
@@ -278,7 +278,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			try:
 				open("/proc/stb/video/alpha", "w").write(str(config.av.osd_alpha.value))
 			except:
-				print "Set OSD Transparacy failed"
+				print("Set OSD Transparacy failed")
 
 	def showBackground(self):
 		log("",self)

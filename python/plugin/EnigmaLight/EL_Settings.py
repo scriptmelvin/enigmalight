@@ -35,15 +35,15 @@ from Components.Pixmap import Pixmap
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Screens.HelpMenu import HelpableScreen
-from EL_Check import EL_Screen_Check
+from .EL_Check import EL_Screen_Check
 
-from __common__ import EnigmaLight_log as log, showMessage, validIP, testDaemonConnectivity, setSymbolic
-from __init__ import getCrashFilePath, _ # _ is translation
+from .__common__ import EnigmaLight_log as log, showMessage, validIP, testDaemonConnectivity, setSymbolic
+from .__init__ import getCrashFilePath, _ # _ is translation
 
-from EL_PathSelector import EL_Screen_PathSelector
+from .EL_PathSelector import EL_Screen_PathSelector
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 import os
 
@@ -141,7 +141,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 			callOnMainThread(func)
 
 	def printWithThread(self,res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	def setStatusBarInfo(self,text):
 		#self.printWithThread("setStatusBarInfo())")

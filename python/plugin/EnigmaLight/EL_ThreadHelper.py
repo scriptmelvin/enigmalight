@@ -1,7 +1,7 @@
 from threading import currentThread
 from twisted.internet import reactor, defer
 from twisted.python import failure
-import Queue
+import queue
 
 def blockingCallOnMainThread(func, *args, **kwargs):
 	"""
@@ -13,7 +13,7 @@ def blockingCallOnMainThread(func, *args, **kwargs):
 	  down.
 	"""
 	def blockingCallFromThread(f, *a, **kw):
-		queue = Queue.Queue()
+		queue = queue.Queue()
 		def _callFromThread():
 			result = defer.maybeDeferred(f, *a, **kw)
 			result.addBoth(queue.put)
@@ -23,7 +23,7 @@ def blockingCallOnMainThread(func, *args, **kwargs):
 		while True:
 			try:
 				result = queue.get(True, 30)
-			except Queue.Empty as qe:
+			except queue.Empty as qe:
 				if True: #not reactor.running: # reactor.running is only False AFTER shutdown, we are during.
 					raise ValueError("Reactor no longer active, aborting.")
 			else:
@@ -66,7 +66,7 @@ def test():
 		return "threadedFunc() retVal"
 
 	def printWithThread(res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	from twisted.internet import threads
 	for i in range(0,3):

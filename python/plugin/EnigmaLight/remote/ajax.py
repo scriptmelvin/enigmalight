@@ -12,7 +12,7 @@
 from Tools.Directories import fileExists
 from Components.config import config
 
-from base import BaseController
+from .base import BaseController
 from time import mktime, localtime
 
 class AjaxController(BaseController):

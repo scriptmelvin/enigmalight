@@ -37,14 +37,14 @@ from Screens.MessageBox import MessageBox
 from Screens.HelpMenu import HelpableScreen
 
 from Screens.Screen import Screen
-from __common__ import checkSymbolic, EnigmaLight_log as log, showMessage, showError
-from __plugin__ import Plugin
-from __init__ import getCrashFilePath, _ # _ is translation
+from .__common__ import checkSymbolic, EnigmaLight_log as log, showMessage, showError
+from .__plugin__ import Plugin
+from .__init__ import getCrashFilePath, _ # _ is translation
 
-from EL_PathSelector import EL_Screen_PathSelector
+from .EL_PathSelector import EL_Screen_PathSelector
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 #===============================================================================
 #
@@ -504,7 +504,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				#print("[Boblight] channels:"+str(channels))
 
 				#total step
- 				hScanStep = 100.0 / leds_bottom_total;				  # 100 / 20 lights = 5
+				hScanStep = 100.0 / leds_bottom_total;				  # 100 / 20 lights = 5
 				hScan_center = (hScanStep*leds_bottom_center) # total center hscan // floorstand //  emptyplaces*hScanStep = ... 50
 				hScan_left = (hScanStep*leds_bottom_left) # total left hscan /// light left*hScanStep = ... 25
 				hScan_right = (hScanStep*leds_bottom_right)
@@ -665,60 +665,60 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 
 			fo = open("/tmp/enigmalight/enigmalight.conf.new", "wb")
 
-			fo.write("[global]\n")
-			fo.write("interface 127.0.0.1\n")
-			fo.write("port 19333\n")
-			fo.write("\n")
+			fo.write(b"[global]\n")
+			fo.write(b"interface 127.0.0.1\n")
+			fo.write(b"port 19333\n")
+			fo.write(b"\n")
 
-			fo.write("[device]\n")
+			fo.write(b"[device]\n")
 
 			if config.plugins.enigmalight.type.value == "WifiLight":
 				name = "wifilight"
-				fo.write("name "+name+"\n")
+				fo.write(b"name "+name+"\n")
 
-				fo.write("output python /home/elight-addons/wifilight/wifilight.py\n")
-				fo.write("type popen\n")
-				fo.write("interval 100000\n")
-				fo.write("channels 3\n")
+				fo.write(b"output python /home/elight-addons/wifilight/wifilight.py\n")
+				fo.write(b"type popen\n")
+				fo.write(b"interval 100000\n")
+				fo.write(b"channels 3\n")
 			else:
-				fo.write("name "+name+"\n")
-				fo.write("output "+config.plugins.enigmalight.output.value+"\n")
-				fo.write("type "+type)
-				fo.write(interval)
-				fo.write(prefix)
-				fo.write(postfix)
-				fo.write("channels "+str(channels)+"\n")
+				fo.write(b"name " + name.encode('utf-8') + b"\n")
+				fo.write(b"output " + config.plugins.enigmalight.output.value.encode('utf-8') + b"\n")
+				fo.write(b"type " + type.encode('utf-8'))
+				fo.write(interval.encode('utf-8'))
+				fo.write(prefix.encode('utf-8'))
+				fo.write(postfix.encode('utf-8'))
+				fo.write(b"channels " + (str(channels)).encode('utf-8') + b"\n")
 
 			if config.plugins.enigmalight.type.value != "iBelight" and config.plugins.enigmalight.type.value != "Lightpack":
-				fo.write("rate "+str(config.plugins.enigmalight.rate.value)+"\n")
+				fo.write(b"rate " + (str(config.plugins.enigmalight.rate.value)).encode('utf-8') + b"\n")
 
-			fo.write("debug off\n")
-			fo.write(delayafteropen)
-			fo.write("\n")
+			fo.write(b"debug off\n")
+			fo.write(delayafteropen.encode('utf-8'))
+			fo.write(b"\n")
 
-			fo.write("[color]\n")
-			fo.write("name red\n")
-			fo.write("rgb "+colorr+"\n")
-			fo.write("gamma "+str(config.plugins.enigmalight.config_r_gamma.value[0])+"."+str(config.plugins.enigmalight.config_r_gamma.value[1])+"\n")
-			fo.write("adjust "+str(config.plugins.enigmalight.config_r_adjust.value[0])+"."+str(config.plugins.enigmalight.config_r_adjust.value[1])+"\n")
-			fo.write("blacklevel "+str(config.plugins.enigmalight.config_r_blacklevel.value[0])+"."+str(config.plugins.enigmalight.config_r_blacklevel.value[1])+"\n")
-			fo.write("\n")
+			fo.write(b"[color]\n")
+			fo.write(b"name red\n")
+			fo.write(b"rgb " + colorr.encode('utf-8') + b"\n")
+			fo.write(b"gamma " + (str(config.plugins.enigmalight.config_r_gamma.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_r_gamma.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"adjust " + (str(config.plugins.enigmalight.config_r_adjust.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_r_adjust.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"blacklevel " + (str(config.plugins.enigmalight.config_r_blacklevel.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_r_blacklevel.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"\n")
 
-			fo.write("[color]\n")
-			fo.write("name green\n")
-			fo.write("rgb "+colorg+"\n")
-			fo.write("gamma "+str(config.plugins.enigmalight.config_g_gamma.value[0])+"."+str(config.plugins.enigmalight.config_g_gamma.value[1])+"\n")
-			fo.write("adjust "+str(config.plugins.enigmalight.config_g_adjust.value[0])+"."+str(config.plugins.enigmalight.config_g_adjust.value[1])+"\n")
-			fo.write("blacklevel "+str(config.plugins.enigmalight.config_g_blacklevel.value[0])+"."+str(config.plugins.enigmalight.config_b_blacklevel.value[1])+"\n")
-			fo.write("\n")
+			fo.write(b"[color]\n")
+			fo.write(b"name green\n")
+			fo.write(b"rgb " + colorg.encode('utf-8') + b"\n")
+			fo.write(b"gamma " + (str(config.plugins.enigmalight.config_g_gamma.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_g_gamma.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"adjust " + (str(config.plugins.enigmalight.config_g_adjust.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_g_adjust.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"blacklevel " + (str(config.plugins.enigmalight.config_g_blacklevel.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_b_blacklevel.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"\n")
 
-			fo.write("[color]\n")
-			fo.write("name blue\n")
-			fo.write("rgb "+colorb+"\n")
-			fo.write("gamma "+str(config.plugins.enigmalight.config_b_gamma.value[0])+"."+str(config.plugins.enigmalight.config_b_gamma.value[1])+"\n")
-			fo.write("adjust "+str(config.plugins.enigmalight.config_b_adjust.value[0])+"."+str(config.plugins.enigmalight.config_b_adjust.value[1])+"\n")
-			fo.write("blacklevel "+str(config.plugins.enigmalight.config_b_blacklevel.value[0])+"."+str(config.plugins.enigmalight.config_b_blacklevel.value[1])+"\n")
-			fo.write("\n")
+			fo.write(b"[color]\n")
+			fo.write(b"name blue\n")
+			fo.write(b"rgb " + colorb.encode('utf-8') + b"\n")
+			fo.write(b"gamma " + (str(config.plugins.enigmalight.config_b_gamma.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_b_gamma.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"adjust " + (str(config.plugins.enigmalight.config_b_adjust.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_b_adjust.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"blacklevel " + (str(config.plugins.enigmalight.config_b_blacklevel.value[0])).encode('utf-8') + b"." + (str(config.plugins.enigmalight.config_b_blacklevel.value[1])).encode('utf-8') + b"\n")
+			fo.write(b"\n")
 
 		#
 		# begin to create lights section
@@ -739,7 +739,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 		#
 		# Set the section order
 		#
-
+		order = "left,top,right,bottom"
 		if self.begin == "left-bottom" or self.begin == "left-top":
 			if config.plugins.enigmalight.clockwise.value == str(1):
 				order = "left,top,right,bottom" # Clockwise
@@ -957,8 +957,8 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 						hScanCurrent = hScanEnd
 
 					if self.createfile:
-						fo.write("\n")
-						fo.write("\n")
+						fo.write(b"\n")
+						fo.write(b"\n")
 
 					# Light name must be 3 chars
 					s = str(totalCount)
@@ -971,20 +971,20 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 						s = s[:-mini]
 
 					if self.createfile:
-						fo.write("[light]\n")
+						fo.write(b"[light]\n")
 						section_name = section
 						if section == "bottom-left" or section == "bottom-right" or section == "bottom-center":
 							section_name = "bottom"
-						fo.write("position "+str(section_name)+"\n")
-						fo.write("name "+str(s)+"\n")
+						fo.write(b"position " + (str(section_name)).encode('utf-8') + b"\n")
+						fo.write(b"name " + (str(s)).encode('utf-8') + b"\n")
 
-						fo.write("color red "+name+" "+str(channelCount)+"\n")
+						fo.write(b"color red " +  name.encode('utf-8') + b" " + (str(channelCount)).encode('utf-8') + b"\n")
 						channelCount += 1
 
-						fo.write("color green "+name+" "+str(channelCount)+"\n")
+						fo.write(b"color green " + name.encode('utf-8') + b" " + (str(channelCount)).encode('utf-8') + b"\n")
 						channelCount += 1
 
-						fo.write("color blue "+name+" "+str(channelCount)+"\n")
+						fo.write(b"color blue " + name.encode('utf-8') + b" " + (str(channelCount)).encode('utf-8') + b"\n")
 						channelCount += 1
 
 					# Swap end and start if it's clockwise
@@ -1002,8 +1002,8 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 						ve = abs(round(vScanEnd,2))
 						hd = 100.00 - scanr
 						if self.createfile:
-							fo.write("hscan "+str(hd)+" 100 \n")
-							fo.write("vscan "+str(vs)+" "+str(ve)+"\n")
+							fo.write(b"hscan " + (str(hd)).encode('utf-8') + b" 100 \n")
+							fo.write(b"vscan " + (str(vs)).encode('utf-8') + b" " + (str(ve)).encode('utf-8') + b"\n")
 
 						#step = i * (300 / config.plugins.enigmalight.lights_right.value)
 						#self.c.fill(390, vs*2, 5, 5, RGB(000,000,255))
@@ -1020,10 +1020,10 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 
 						if self.createfile:
 							if he > hs:
-								fo.write("hscan "+str(hs)+" "+str(he)+"\n")
+								fo.write(b"hscan " + (str(hs)).encode('utf-8') + b" " + (str(he)).encode('utf-8') + b"\n")
 							else:
-								fo.write("hscan "+str(he)+" "+str(hs)+"\n")
-							fo.write("vscan "+str(vd)+" 100\n")
+								fo.write(b"hscan " + (str(he)).encode('utf-8') + b" " + (str(hs)).encode('utf-8') + b"\n")
+							fo.write(b"vscan " + (str(vd)).encode('utf-8') + b" 100\n")
 
 						# Debug
 						#print("[Boblight] hScanStart :  "+str(hs))
@@ -1036,10 +1036,10 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 
 						if self.createfile:
 							if he > hs:
-								fo.write("hscan "+str(hs)+" "+str(he)+"\n")
+								fo.write(b"hscan " + (str(hs)).encode('utf-8') + b" " + (str(he)).encode('utf-8') + b"\n")
 							else:
-								fo.write("hscan "+str(he)+" "+str(hs)+"\n")
-							fo.write("vscan 0 "+str(vd)+"\n")
+								fo.write(b"hscan " + (str(he)).encode('utf-8') + b" " + (str(hs)).encode('utf-8') + b"\n")
+							fo.write(b"vscan 0 " + (str(vd)).encode('utf-8') + b"\n")
 
 						#self.c.fill(hs*4, 0, 5, 5, RGB(255,000,000))
 						#print "step-top %s" %(str(hs*4))
@@ -1054,8 +1054,8 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 						hd = scanl
 
 						if self.createfile:
-							fo.write("hscan 0 "+str(hd)+"\n")
-							fo.write("vscan "+str(vs)+" "+str(ve)+"\n")
+							fo.write(b"hscan 0 " + (str(hd)).encode('utf-8') + b"\n")
+							fo.write(b"vscan " + (str(vs)).encode('utf-8') + b" " + (str(ve)).encode('utf-8') + b"\n")
 
 						#self.c.fill(0, vs*2, 5, 5, RGB(000,255,000))
 						#print "step-left %s" %(str(vs*2))

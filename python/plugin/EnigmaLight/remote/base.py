@@ -13,7 +13,7 @@ from Plugins.Extensions.EnigmaLight.__common__ import EnigmaLight_log as log, rg
 
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
 
-from models.info import getBasePath, getPublicPath, getViewsPath
+from .models.info import getBasePath, getPublicPath, getViewsPath
 
 from twisted.web import server, http, static, resource, error
 from Cheetah.Template import Template
@@ -22,7 +22,7 @@ import imp
 import sys
 import json
 import gzip
-import cStringIO
+import io
 
 class BaseController(resource.Resource):
 	isLeaf = False
@@ -64,7 +64,7 @@ class BaseController(resource.Resource):
 		
 	def compressBuf(self, buf):
 		log("",self)
-		zbuf = cStringIO.StringIO()
+		zbuf = io.StringIO()
 		zfile = gzip.GzipFile(mode = 'wb',  fileobj = zbuf, compresslevel = 6)
 		zfile.write(buf)
 		zfile.close()

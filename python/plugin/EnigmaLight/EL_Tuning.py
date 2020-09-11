@@ -20,7 +20,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 """
 from . import _
-import thread, os
+import _thread, os
 from enigma import eListboxPythonMultiContent, gFont, RT_HALIGN_LEFT, RT_VALIGN_CENTER
 
 from threading import Thread, Timer
@@ -37,13 +37,13 @@ from Components.AVSwitch import AVSwitch
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 
-from __common__ import EnigmaLight_log as log, showMessage, Clamp, getAspect
-from __init__ import getCrashFilePath, getVersion, _ # _ is translation
+from .__common__ import EnigmaLight_log as log, showMessage, Clamp, getAspect
+from .__init__ import getCrashFilePath, getVersion, _ # _ is translation
 
-from EL_PathSelector import EL_Screen_PathSelector
+from .EL_PathSelector import EL_Screen_PathSelector
 
 from threading import currentThread
-from EL_ThreadHelper import callOnMainThread
+from .EL_ThreadHelper import callOnMainThread
 
 #===============================================================================
 #
@@ -137,7 +137,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			callOnMainThread(func)
 
 	def printWithThread(self,res):
-		print "%s :: {%s}" %(res, currentThread().getName())
+		print("%s :: {%s}" %(res, currentThread().getName()))
 
 	def setStatusBarInfo(self,text):
 		#self.printWithThread("setStatusBarInfo())")
@@ -345,7 +345,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			try:
 				open("/proc/stb/video/alpha", "w").write(str(config.av.osd_alpha.value))
 			except:
-				print "Set OSD Transparacy failed"
+				print("Set OSD Transparacy failed")
 		self.sampleUse = False
 
 	def showBackground(self):
