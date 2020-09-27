@@ -1,5 +1,5 @@
 DESCRIPTION = "An Ambilight clone for broadcom based linux receivers."
-HOMEPAGE = "https://github.com/Dima73/enigmalight"
+HOMEPAGE = "https://github.com/nickersk/enigmalight"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=156f94b2a67a05ad45ff99bec65b2c81"
 
