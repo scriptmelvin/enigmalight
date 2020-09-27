@@ -1,21 +1,26 @@
-[![Build Status](https://travis-ci.com/nickersk/enigmalight.svg?branch=4.4)](https://travis-ci.com/nickersk/enigmalight) 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+Enigmalight 
+An Ambilight clone for broadcom based linux receivers.
 
-Enigmalight - Copyright (C) 2015 Martijn Vos
 
-some parts of this code were taken from
-- aio-grab
-- boblight-X11
+-How to compile on Ubuntu
+./bootstrap
+./install
 
-enigmalight is free software: you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+When [install] is started, it will download the needed compiler and compile the binary files for you.
+After build it's found in your enigmalight_workdir/elight-addons/usr/bin/.
+there are three files [elighttalk],[enigmalight_sf],[enigmalight_hf] mostly you need the hf version because this is for 
+receivers with FPU support.
 
-enigmalight is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
+- If you need to know if your receiver has the FPU support, then type in your terminal cat /proc/cpuinfo.
+- the SF version is for receivers like dm800, this one has no FPU, use the SOFTFLOAT version.
+- With Elighttalk you can talk to enigmalight and change the options over terminalcommands.
 
-You should have received a copy of the GNU General Public License along
-with this program.  If not, see <http://www.gnu.org/licenses/>.
+-Install Enigmalight manual on your receiver
+copy the [elight-addons] dir to your receiver /home/
+copy the [EnigmaLight] dir from build/python/plugin/ to your receiver /usr/lib/enigma2/python/Plugins/Extensions/
+
+-For some devices like Atmolight,Karatelight,Adalight you need this kernel modules
+To install this on your receiver type: opkg install kernel-module-cdc-acm kernel-module-ftdi-sio
+Reboot your receiver and if all is succesfull you can make a configfile and run it.
+
+Enjoy!
