@@ -435,6 +435,14 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 	#	Build configfile
 	#===========================================================================
 	def BuildConfig(self,message):
+
+		# make sure tmp path and prefix.txt exists
+		if not os.path.isdir("/tmp/enigmalight"):
+			os.system("mkdir /tmp/enigmalight")
+			os.system("touch /tmp/enigmalight/prefix.txt")
+		elif not os.path.isfile("/tmp/enigmalight/prefix.txt"):
+			os.system("touch /tmp/enigmalight/prefix.txt")
+
 		prefix  = ""
 
 		if self.createfile:
@@ -484,13 +492,13 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 			#print("[Boblight] Channels: "+str(channels))
  
 			# total step
-			hScanStep = 100.0 / leds_bottom_total; # 100 / 20 lights = 5
+			hScanStep = 100.0 / leds_bottom_total  # 100 / 20 lights = 5
 			hScan_center = (hScanStep*leds_bottom_center) # total center hscan // floorstand //  emptyplaces*hScanStep = ... 50
 			hScan_right  = (hScanStep*leds_bottom_right) # total right hscan /// light rights*hScanStep = ... 25
  
-			hScanCurrent = 0.0 + (hScan_center - hScan_right); # 25 
+			hScanCurrent = 0.0 + (hScan_center - hScan_right)  # 25
  
-			hScanBottom_left  = hScanCurrent; # = 25 is plus
+			hScanBottom_left  = hScanCurrent  # = 25 is plus
 			hScanBottom_right = 100.0 # = 25 + 50 = 75 is min
 
 			# debug
@@ -504,42 +512,42 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				#print("[Boblight] channels:"+str(channels))
 
 				#total step
-				hScanStep = 100.0 / leds_bottom_total;				  # 100 / 20 lights = 5
+ 				hScanStep = 100.0 / leds_bottom_total  # 100 / 20 lights = 5
 				hScan_center = (hScanStep*leds_bottom_center) # total center hscan // floorstand //  emptyplaces*hScanStep = ... 50
 				hScan_left = (hScanStep*leds_bottom_left) # total left hscan /// light left*hScanStep = ... 25
 				hScan_right = (hScanStep*leds_bottom_right)
 
-				hScanCurrent = (hScan_center + hScan_left); # 75
+				hScanCurrent = (hScan_center + hScan_left)  # 75
 
-				hScanBottom_left  = 0.0; # = 75
-				hScanBottom_right = hScanCurrent; # = 75 + 50 = 25
+				hScanBottom_left  = 0.0  # = 75
+				hScanBottom_right = hScanCurrent  # = 75 + 50 = 25
 
 				#print("[Boblight] hScanBottom_left:"+str(hScanBottom_left)+" hScanBottom_right:"+str(hScanBottom_right))
 
 		elif self.begin == "bottom-right" or self.begin == "bottom-middle-right" or self.begin == "bottom-middle-left" or self.begin == "bottom-left":
-			leds_bottom_right = leds_bottom/2;
-			leds_bottom_left = leds_bottom/2;
+			leds_bottom_right = leds_bottom/2
+			leds_bottom_left = leds_bottom/2
 
 			if config.plugins.enigmalight.clockwise.value == str(2):
 
-				hScanStep = 100.0 / leds_bottom;
+				hScanStep = 100.0 / leds_bottom
 				hScan_left = (hScanStep*leds_bottom) # total left hscan /// light left*hScanStep = ... 25
 				hScan_right = (hScanStep*leds_bottom)
 
-				hScanCurrent = (hScan_left); # 75
+				hScanCurrent = (hScan_left)  # 75
 
-				hScanBottom_right = 100.0; # = 75
-				hScanBottom_left = hScanCurrent; # = 75 + 50 = 25
+				hScanBottom_right = 100.0  # = 75
+				hScanBottom_left = hScanCurrent  # = 75 + 50 = 25
 			
 			elif config.plugins.enigmalight.clockwise.value == str(1):
-				hScanStep = 100.0 / leds_bottom;
+				hScanStep = 100.0 / leds_bottom
 				hScan_left = (hScanStep*leds_bottom) # total left hscan /// light left*hScanStep = ... 25
 				hScan_right = (hScanStep*leds_bottom)
 
-				hScanCurrent = (hScan_right); # 75
+				hScanCurrent = (hScan_right)  # 75
 
-				hScanBottom_right = hScanCurrent; # = 75
-				hScanBottom_left = 50.0; # = 75 + 50 = 25
+				hScanBottom_right = hScanCurrent  # = 75
+				hScanBottom_left = 50.0  # = 75 + 50 = 25
 		#
 		# Atmolight need 4 channels more.
 		#
@@ -547,7 +555,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 		if config.plugins.enigmalight.type.value == "Atmolight":
 			channels += 4
 
-		total_lights = channels / 3;
+		total_lights = channels / 3
 
 		if self.createfile:
 			#
@@ -600,7 +608,6 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				#
 				# Prefix calculation [This only works for arduino boards]
 				#
-
 				os.system("/usr/bin/elightprefix "+str(total_lights)+" > /tmp/enigmalight/prefix.txt")
 
 				fo = open("/tmp/enigmalight/prefix.txt", "r")
@@ -608,7 +615,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				fo.close()
 
 				# remove tmpfile
-				os.system("rm /tmp/enigmalight/prefix.txt")
+				os.system("rm -f /tmp/enigmalight/prefix.txt")
 
 				reading = reading.split("LEDS:  ")
 				if len(reading) > 1:
@@ -911,9 +918,8 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 			if lights > 0:
 
 				# Steps
-				vScanStep = 100.00 / lights;
-				hScanStep = 100.00 / lights;
-
+				vScanStep = 100.00 / lights
+				hScanStep = 100.00 / lights
 
 				# Set other step for floorstand option
 				if config.plugins.enigmalight.floorstand.value == str(2):
@@ -1064,9 +1070,9 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 						#print("[Boblight] vScanStart  :  "+str(vs))
 						#print("[Boblight] vScanEnd	:  "+str(ve))
 
-					lightCount += 1; # Counter for sections
-					totalCount += 1;
-				# End loop
+					lightCount += 1  # Counter for sections
+					totalCount += 1
+			# End loop
 		#self.c.flush()
 
 		if config.plugins.enigmalight.type.value == "WifiLight":
