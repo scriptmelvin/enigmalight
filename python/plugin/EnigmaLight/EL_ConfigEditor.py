@@ -512,6 +512,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 				#print("[Boblight] channels:"+str(channels))
 
 				#total step
+				hScanStep = 100.0 / leds_bottom_total  # 100 / 20 lights = 5
 				hScan_center = (hScanStep*leds_bottom_center) # total center hscan // floorstand //  emptyplaces*hScanStep = ... 50
 				hScan_left = (hScanStep*leds_bottom_left) # total left hscan /// light left*hScanStep = ... 25
 				hScan_right = (hScanStep*leds_bottom_right)
