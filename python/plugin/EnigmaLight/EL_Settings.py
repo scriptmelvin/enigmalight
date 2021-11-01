@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -55,16 +55,16 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 	_hasChanged = False
 	_session = None
 	skins = None
-	
+
 	def __init__(self, session):
 		log("",self,"Settings Opened succesfull..")
 
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
-		
+
 		self.cfglist = []
 		ConfigListScreen.__init__(self, self.cfglist, session, on_change = self._changed)
-		
+
 		self._session = session
 		self._hasChanged = False
 		self._hasNetworkChanged = False
@@ -101,14 +101,14 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 		if 'armv7l' in arch:
 			self.arm_box = True
 		self.createSetup()
-		
+
 		log("",self,"Finisch layout...")
 
 		self["config"].onSelectionChanged.append(self.updateHelp)
 		self.onLayoutFinish.append(self.finishLayout)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def finishLayout(self):
 		log("",self,"Layout finisched..")
@@ -125,7 +125,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 			self["txt_statusbar_info"].show()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setController(self, controller):
 		self.controller = controller
@@ -133,7 +133,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -162,7 +162,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 			self["txt_statusbar"].show()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def createSetup(self):
 		log("",self)
@@ -172,22 +172,22 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 		self.cfglist.append(getConfigListEntry(_("[ General Settings ]"), config.plugins.enigmalight.about, _(" ")))
 		if self.arm_box:
 			self.cfglist.append(getConfigListEntry(_('- Type of EnigmaLight binary:'),config.plugins.enigmalight.bintype_arm, _(" ")))
-		#self.cfglist.append(getConfigListEntry(_('- Type of EnigmaLight binary:'),config.plugins.enigmalight.bintype, _("Here you can select the type of enigmalight, the most receivers can use the fpu version but some receivers can't. For then use the normal version")))     
+		#self.cfglist.append(getConfigListEntry(_('- Type of EnigmaLight binary:'),config.plugins.enigmalight.bintype, _("Here you can select the type of enigmalight, the most receivers can use the fpu version but some receivers can't. For then use the normal version")))
 		self.configfilepath = getConfigListEntry(_("- Configuration File"), config.plugins.enigmalight.configfilepath, _("Select your configfile, default /etc/enigmalight.conf will be used "))
 		self.cfglist.append(self.configfilepath)
 
-		self.cfglist.append(getConfigListEntry(_('- Run EnigmaLight as server when lights are off:'),config.plugins.enigmalight.server, _("Run EnigmaLight as Server for Boblight or other clients ")))     
+		self.cfglist.append(getConfigListEntry(_('- Run EnigmaLight as server when lights are off:'),config.plugins.enigmalight.server, _("Run EnigmaLight as Server for Boblight or other clients ")))
 		#self.cfglist.append(getConfigListEntry(_('- Check for update, press OK\r'),config.plugins.enigmalight.clickOK, _("Press OK to check for update.. "))),
 		self.cfglist.append(getConfigListEntry(_('- Show message when turn on/off lights:'),config.plugins.enigmalight.message_onoff, _("Show a messagebox when you turn on/off the lights ")))
 		self.cfglist.append(getConfigListEntry(_('- Enable lights on boot:'),config.plugins.enigmalight.autostart, _("Automatic turn on lights on boot ")))
 		self.cfglist.append(getConfigListEntry(_('- Cluster Leds:'),config.plugins.enigmalight.cluster, _("Cluster [X] Leds as one led.\nDefault each led had is own color, with this option you can bundle/cluster this to 2 -> 10 leds.")))
 		self.cfglist.append(getConfigListEntry(_('- Delay:'), config.plugins.enigmalight.delay, _(" Some tv's are slower then the lights. With this option you can make the output 1 -> 20 frames later.")))
-		self.cfglist.append(getConfigListEntry(_('- Interval:'), config.plugins.enigmalight.interval, _("How fast Enigmalight wil run.\n0.01 = 15 -> 40fps | 0.10 = 10fps | 0.20 = 5fps: "))) 
+		self.cfglist.append(getConfigListEntry(_('- Interval:'), config.plugins.enigmalight.interval, _("How fast Enigmalight wil run.\n0.01 = 15 -> 40fps | 0.10 = 10fps | 0.20 = 5fps: ")))
 		self.cfglist.append(getConfigListEntry(_('- 3D Mode:'), config.plugins.enigmalight.m_3dmode, _("Turn on/off 3D Mode, SBS or TAB")))
 		self.cfglist.append(getConfigListEntry(_('- Default lightmode:'),config.plugins.enigmalight.mode, _(" ")))
 		self.cfglist.append(getConfigListEntry(_('- Standby Mode:'),config.plugins.enigmalight.standbymode, _("Turn off lights or use moodlamp in standby ")))
 		self.cfglist.append(getConfigListEntry(_('- Color order:'), config.plugins.enigmalight.color_order,  _(" Set the order as given in enigmalight.conf.")))
-		
+
 		self.cfglist.append(getConfigListEntry(_("[ Blackbars ]"), config.plugins.enigmalight.about, _(" ")))
 		self.cfglist.append(getConfigListEntry(_('- Remove Blackbars top and bottom:'),config.plugins.enigmalight.blackbar_h, _("Remove horizontal blackbars from lights.")))
 		self.cfglist.append(getConfigListEntry(_('- Remove Blackbars left and right:'),config.plugins.enigmalight.blackbar_v, _("Remove vertical blackbars from lights.")))
@@ -197,8 +197,8 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 		#Network
 		self.cfglist.append(getConfigListEntry(_("[ Network Settings ]"), config.plugins.enigmalight.about, _(" ")))
 		self.cfglist.append(getConfigListEntry(_('- Enable network mode (connect with other daemon):'), config.plugins.enigmalight.network_onoff, _("Use enigmalight as client and connect with other daemon over network (not for local use)")))
-		
-		if config.plugins.enigmalight.network_onoff.value is True: 
+
+		if config.plugins.enigmalight.network_onoff.value is True:
 			self.cfglist.append(getConfigListEntry(_('- Host ipaddress:'), config.plugins.enigmalight.address, _(" ")))
 			self.cfglist.append(getConfigListEntry(_('- Daemon port:'), config.plugins.enigmalight.port, _(" ")))
 
@@ -231,7 +231,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 		#self["config"].l.setList(self.cfglist)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def _changed(self):
 		self._hasChanged = True
@@ -253,14 +253,14 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 			self._binTypeChanged = True
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def updateHelp(self):
 		cur = self["config"].getCurrent()
 		self["help"].text = cur and cur[2] or " "
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def ok(self):
 		cur = self["config"].getCurrent()
@@ -273,19 +273,19 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 			self.controller.checkedForUpdates = True
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def savePathConfig(self, pathValue, myType):
 		log("",self)
 		log("",self,"pathValue: " + str(pathValue))
 		log("",self,"type: " + str(myType))
-		
+
 		if pathValue is not None:
 
 			if myType == "configfile":
 				self.configfilepath[1].value = pathValue
 				self._restartBinary = True
-				
+
 				if pathValue != None:
 					message = self.session.openWithCallback(self.restartEnigmaLight,MessageBox,_("To reload the configfile EnigmaLight needs a restart, restart now ?"), MessageBox.TYPE_YESNO)
 					message.setTitle(_("Reload configfile ?"))
@@ -311,7 +311,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 		self.close(None)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keySave(self):
 		log("",self)
@@ -346,7 +346,7 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 				self.close(None)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def startClient(self, answer):
 		log("",self)
@@ -363,29 +363,29 @@ class EL_Screen_Settings(Screen, ConfigListScreen, HelpableScreen):
 			self.close()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyLeft(self):
 		log("",self)
 		ConfigListScreen.keyLeft(self)
 		self.createSetup()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyRight(self):
 		log("",self)
 		ConfigListScreen.keyRight(self)
 		self.createSetup()
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetUp(self):
 		log("",self)
 		self["config"].instance.moveSelection(self["config"].instance.pageUp)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetDown(self):
 		log("",self)

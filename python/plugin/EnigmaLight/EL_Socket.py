@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from other plugins:
@@ -105,7 +105,7 @@ class EL_Socket(object):
 			except socket.error as msg:
 				log("E",self,"Exception(" + str(type(msg)) + "): " + str(msg))
 				returned = None
-			finally:			
+			finally:
 				return returned
 
 	def setCommand(self, data):
@@ -127,7 +127,7 @@ class EL_Socket(object):
 			except socket.error as msg:
 				log("E",self,"Exception(" + str(type(msg)) + "): " + str(msg))
 				returned = None
-			finally:			
+			finally:
 				return returned
 
 	def ping(self):
@@ -167,7 +167,7 @@ class EL_Socket(object):
 		log("E",self,"")
 		ret = self.getCommand("get res")
 		return ret
-	
+
 	def getConnectedAddress(self):
 		log("E",self,"")
 		ret = self.getCommand("get connectedaddress")

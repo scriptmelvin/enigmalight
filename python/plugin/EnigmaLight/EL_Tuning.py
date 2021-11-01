@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -53,7 +53,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 	_hasChanged = False
 	_session = None
 	skins = None
-	
+
 	def __init__(self, session):
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
@@ -66,7 +66,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 		self.selected = None
 		self.sampleUse = False
 		self.aspect = getAspect()
-		self.old_service = self.session.nav.getCurrentlyPlayingServiceReference()	
+		self.old_service = self.session.nav.getCurrentlyPlayingServiceReference()
 		self["txt_green"] = Label()
 		self["btn_green"] = Pixmap()
 		self["statusbar"] = Pixmap()
@@ -105,14 +105,14 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 		#self["config"].onSelectionChanged.append(self.updateHelp)
 		self.onLayoutFinish.append(self.finishLayout)
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setController(self, controller):
 		self.controller = controller
 		self.controller.setSession(self.session)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def finishLayout(self):
 		self.setTitle(_("Tuning"))
@@ -129,7 +129,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -158,7 +158,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			self["txt_statusbar"].show()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def createSetup(self):
 		separator = "".ljust(120,"_")
@@ -178,7 +178,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 		self.cfglist.append(getConfigListEntry(_('- Minimal Saturation 0.00-1.00:'),config.plugins.enigmalight.saturationmin, _("Minimal Brightness:\nIf you set this as example to 0.01, then the LEDs will not completely dark is there is black but soft grey")))
 		self.cfglist.append(getConfigListEntry(_('- Maximal Saturation 0.00-1.00:'),config.plugins.enigmalight.saturationmax, _(" ")))
 		self.cfglist.append(getConfigListEntry(_('- Gamma correction 1-10:'),config.plugins.enigmalight.gamma, _("Gamma correction:\n Set this to 2.2 for default, since this is a default value for movies.")))
-		self.cfglist.append(getConfigListEntry(_('- Threshold:') ,config.plugins.enigmalight.threshold, _("Threshold:\nFilter/Remove the almost dark pixels, 15 is a nice value.")))		
+		self.cfglist.append(getConfigListEntry(_('- Threshold:') ,config.plugins.enigmalight.threshold, _("Threshold:\nFilter/Remove the almost dark pixels, 15 is a nice value.")))
 
 		self.cfglist.append(getConfigListEntry(_("[ Color Adjustment, only local ]") + separator, config.plugins.enigmalight.about, _(" ")))
 		self.cfglist.append(getConfigListEntry(_('- Use ColorAdjust Settings:'), config.plugins.enigmalight.use_live_adjust))
@@ -188,7 +188,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			r = config.plugins.enigmalight.adjustr.getValue()
 			g = config.plugins.enigmalight.adjustg.getValue()
 			b = config.plugins.enigmalight.adjustb.getValue()
-			
+
 			#if config.plugins.enigmalight.color_order.value == "0":
 			self.cfglist.append(getConfigListEntry(_('- Adjust RED\t%s')% str(r), config.plugins.enigmalight.adjustr))
 			self.cfglist.append(getConfigListEntry(_('- Adjust GREEN\t%s')% str(g), config.plugins.enigmalight.adjustg))
@@ -233,7 +233,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			self.getCustom(config.plugins.enigmalight.presets.getValue());
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 
 	def getCustom(self,profilenr):
@@ -268,7 +268,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 				pass
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 
 	def saveCustom(self,profilenr):
@@ -287,7 +287,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			fo.write(str(config.plugins.enigmalight.autospeed.value))
 
 			fo.close();
-			
+
 		except:
 			from traceback import format_exc
 			log("Error:" +format_exc(),self)
@@ -298,7 +298,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 				pass
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 
 	def _changed(self):
@@ -334,7 +334,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 		# Restart old service
 		self.session.nav.stopService()
 		self.session.nav.playService(self.old_service)
-		
+
 		## Restore OSD Transparency Settings
 		os.system("echo " + hex(0)[2:] + " > /proc/stb/vmpeg/0/dst_top")
 		os.system("echo " + hex(0)[2:] + " > /proc/stb/vmpeg/0/dst_left")
@@ -369,20 +369,20 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 		### END TEST ###
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def ok(self):
 		cur = self["config"].getCurrent()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keySave(self):
 		self.saveAll()
 		self.exitTuning()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyLeft(self):
 		ConfigListScreen.keyLeft(self)
@@ -391,7 +391,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			self.createSetup()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyRight(self):
 		ConfigListScreen.keyRight(self)
@@ -400,23 +400,23 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 			self.createSetup()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetUp(self):
 		self["config"].instance.moveSelection(self["config"].instance.pageUp)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetDown(self):
 		self["config"].instance.moveSelection(self["config"].instance.pageDown)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyNext(self):
 		log("",self)
-		self.selected = self["config"].getCurrent()[1] 
+		self.selected = self["config"].getCurrent()[1]
 		if self.selected == config.plugins.enigmalight.adjustr:
 			config.plugins.enigmalight.adjustr.setValue(Clamp(config.plugins.enigmalight.adjustr.getValue()+10,0,255))
 		elif self.selected == config.plugins.enigmalight.adjustg:
@@ -427,7 +427,7 @@ class EL_Screen_Tuning(Screen, ConfigListScreen, HelpableScreen):
 		self._changed()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyPrev(self):
 		log("",self)

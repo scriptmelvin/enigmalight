@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -90,7 +90,7 @@ class EL_Helper_HorizontalMenu(object):
 				self[self.translatePositionToName(+i)].setText(content[targetIndex][0])
 			else:
 				firstResult = targetIndex - count
-				
+
 				if firstResult >= count:
 					firstResult = currentIndex
 
@@ -112,7 +112,7 @@ class EL_Helper_HorizontalMenu(object):
 	#===============================================================================
 	def translatePositionToName(self, name, value=None):
 		if value is None:
-			
+
 			return self._translatePositionToName[name]
 		else:
 			self._translatePositionToName[name] = value

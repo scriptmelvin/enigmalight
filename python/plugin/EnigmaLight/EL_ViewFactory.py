@@ -1,6 +1,6 @@
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:

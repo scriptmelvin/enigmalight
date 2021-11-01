@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -36,12 +36,12 @@ from .__common__ import EnigmaLight_log as log
 from .__init__ import _ # _ is translation
 
 #===========================================================================
-# 
+#
 #===========================================================================
 class EL_Screen_PathSelector(Screen):
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def __init__(self, session, initDir, myType, title):
 		Screen.__init__(self, session)
@@ -53,7 +53,7 @@ class EL_Screen_PathSelector(Screen):
 
 		if not os.path.exists(initDir):
 			initDir = "/etc/"
-		
+
 		self.filelist = FileList("/dev/", showDirectories = True, showFiles = True, showMountpoints = True, isTop = False, matchingPattern = "")
 		self["filelist"] = self.filelist
 
@@ -71,7 +71,7 @@ class EL_Screen_PathSelector(Screen):
 			"ok": self.ok,
 			"green": self.green,
 			"red": self.cancel
-			
+
 		}, -1)
 
 		self["btn_red"] = Pixmap()
@@ -95,47 +95,47 @@ class EL_Screen_PathSelector(Screen):
 		self.setTitle(_(self.title))
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def cancel(self):
 		self.close(None, self.myType)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def green(self):
 		self.close(str(self["filelist"].getCurrentDirectory()) + str(self["filelist"].getSelection()[0]), self.myType)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def up(self):
 		self["filelist"].up()
 		self.updateTarget()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def down(self):
 		self["filelist"].down()
 		self.updateTarget()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def left(self):
 		self["filelist"].pageUp()
 		self.updateTarget()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def right(self):
 		self["filelist"].pageDown()
 		self.updateTarget()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def ok(self):
 		if self["filelist"].canDescent():
@@ -143,7 +143,7 @@ class EL_Screen_PathSelector(Screen):
 			self.updateTarget()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def updateTarget(self):
 		currFolder = str(self["filelist"].getCurrentDirectory())

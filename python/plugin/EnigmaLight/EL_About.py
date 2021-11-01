@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -48,9 +48,9 @@ class EL_Screen_About(Screen):
 	def __init__(self, session):
 		try:
 			Screen.__init__(self, session)
-			
+
 			self._session = session
-			
+
 			self["content"] = Label()
 			self["content2"] = Label()
 
@@ -64,7 +64,7 @@ class EL_Screen_About(Screen):
 			{
 				"cancel": self.keyCancel,
 			}, -2)
-			
+
 			self.onLayoutFinish.append(self.finishLayout)
 		except:
 			from traceback import format_exc
@@ -75,7 +75,7 @@ class EL_Screen_About(Screen):
 				pass
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def finishLayout(self):
 		self.setTitle(_("About EnigmaLight / Box information"))
@@ -98,7 +98,7 @@ class EL_Screen_About(Screen):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -126,24 +126,24 @@ class EL_Screen_About(Screen):
 			self["txt_statusbar_info"].show()
 			self["txt_statusbar"].show()
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyCancel(self):
 		self.close()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setController(self, controller):
 		self.controller = controller
 		self.controller.setSession(self.session)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def getContentText(self):
 		content = ""
-		content += "EnigmaLight - Ambilight for Enigma2 \n\n" 
+		content += "EnigmaLight - Ambilight for Enigma2 \n\n"
 		content += "Version: \t" + getVersion() + "\n\n"
 		content += "Autors: \t Speedy1985 and Oktay Oeztueter\n"
 		content += "Translations: \t HolyMoly/Speedy1985/ Dimitrij\n"

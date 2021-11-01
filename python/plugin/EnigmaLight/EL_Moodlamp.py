@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -55,18 +55,18 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 	_hasChanged = False
 	_session = None
 	skins = None
-	
+
 	def __init__(self, session):
 		log("",self,"Moodlamp Opened succesfull..")
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
-		
+
 		self.cfglist = []
 		ConfigListScreen.__init__(self, self.cfglist, session, on_change = self._changed)
-		
+
 		self._session = session
 		self._hasChanged = False
-		
+
 		self.selected = None
 		self.controller = None
 
@@ -74,7 +74,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		self["txt_yellow"] = Label()
 
 		self["canvas_text"] = StaticText()
-		
+
 		self["help"] = StaticText()
 
 		self["btn_green"] = Pixmap()
@@ -85,7 +85,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		self["txt_statusbar_info"] = Label()
 
 		self["Canvas"] = CanvasSource()
-		
+
 		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "EL_Settings"],
 		{
 			"green": self.keySave,
@@ -106,12 +106,12 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		self.createList()
 
 		log("",self,"Finisch layout..")
-		
+
 		self["config"].onSelectionChanged.append(self.updateHelp)
 		self.onLayoutFinish.append(self.finishLayout)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def finishLayout(self):
 		log("",self,"Layout finsched..")
@@ -129,7 +129,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -158,7 +158,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 			self["txt_statusbar"].show()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setController(self, controller):
 		self.controller = controller
@@ -168,24 +168,24 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 			self.controller.writeMoodlamp()
 
 	#==========================================================================
-	# 
+	#
 	#==========================================================================
 	def setStatusBarInfo(self,text):
 			self["txt_statusbar_info"].setText(text)
 
 	#==========================================================================
-	# 
+	#
 	#==========================================================================
 	def setStatusBarTxt(self,text):
 			self["txt_statusbar"].setText(text)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def createList(self):
 		log("",self)
 		separator = "".ljust(120,"_")
-		
+
 		self.cfglist = []
 
 		# COLOR SETTINGS
@@ -230,9 +230,9 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 			self.cfglist.append(getConfigListEntry(_('- Fader brightness : %s\t') % str(config.plugins.enigmalight.moodlamp_fader_brightness.getValue()), config.plugins.enigmalight.moodlamp_fader_brightness, _(" ")))
 		self["config"].list = self.cfglist
 		self["config"].l.setList(self.cfglist)
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 
 	def _changed(self):
@@ -245,24 +245,24 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 
 		if config.plugins.enigmalight.moodlamp_mode.value is str(1):
 			self.setBackground()
-		
+
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def updateHelp(self):
 		log("",self)
 		cur = self["config"].getCurrent()
 		self["help"].text = cur and cur[2] or "empty"
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def ok(self):
 		cur = self["config"].getCurrent()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keySave(self):
 		log("",self)
@@ -270,37 +270,37 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		self.close(None)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyLeft(self):
 		log("",self)
 		ConfigListScreen.keyLeft(self)
 		self.createList()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyRight(self):
 		log("",self)
 		ConfigListScreen.keyRight(self)
 		self.createList()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetUp(self):
 		log("",self)
 		self["config"].instance.moveSelection(self["config"].instance.pageUp)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetDown(self):
 		log("",self)
 		self["config"].instance.moveSelection(self["config"].instance.pageDown)
-	
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setBackground(self):
 		log("Set Canvas bg..",self)
@@ -313,7 +313,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		#if config.plugins.enigmalight.color_order.getValue() == "0":
 		self.c.fill(0, 0, 950, 30, getRGB(r,g,b))
 		# elif config.plugins.enigmalight.color_order.getValue() == "1":
-		# 	self.c.fill(0, 0, 950, 30, getRGB(b,g,r))		   
+		# 	self.c.fill(0, 0, 950, 30, getRGB(b,g,r))
 		# elif config.plugins.enigmalight.color_order.getValue() == "2":
 		# 	self.c.fill(0, 0, 950, 30, getRGB(g,b,r))
 		# elif config.plugins.enigmalight.color_order.getValue() == "3":
@@ -325,11 +325,11 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		# self.c.flush()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyNext(self):
 		log("",self)
-		self.selected = self["config"].getCurrent()[1] 
+		self.selected = self["config"].getCurrent()[1]
 		if self.selected == config.plugins.enigmalight.moodlamp_static_color_r:
 			config.plugins.enigmalight.moodlamp_static_color_r.setValue(Clamp(config.plugins.enigmalight.moodlamp_static_color_r.getValue()+10,0,255))
 		elif self.selected == config.plugins.enigmalight.moodlamp_static_color_g:
@@ -338,9 +338,9 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 			config.plugins.enigmalight.moodlamp_static_color_b.setValue(Clamp(config.plugins.enigmalight.moodlamp_static_color_b.getValue()+10,0,255))
 		self._changed() #Refresh list
 		self.createList()
-	
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyPrev(self):
 		log("",self)

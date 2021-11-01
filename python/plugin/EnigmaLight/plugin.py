@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code are from DonDavici (c) 2012 and other plugins:
@@ -100,7 +100,7 @@ def Autostart(reason, session=None, **kwargs):
 
 			if config.plugins.enigmalight.autostart.getValue() != str(0):
 				log("",None,"plugin::Autostart(reason, session=None, **kwargs)) > Autostart enigmalight..")
-				
+
 				if config.plugins.enigmalight.autostart.getValue() == str(1):
 					controller.Control("start", "server")
 				elif config.plugins.enigmalight.autostart.getValue() == str(2):

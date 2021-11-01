@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -93,7 +93,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 
 			# Menu
 			self["menu"]= List(enableWrapAround=True)
-			
+
 			# Buttons
 			self["txt_green"] = Label()
 			self["btn_green"] = Pixmap()
@@ -109,7 +109,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			self["txt_statusbar"] = Label()
 			self["txt_statusbar_info"] = Label()
 
-			self["actions"] = HelpableActionMap(self, "EL_MainMenuActions", 
+			self["actions"] = HelpableActionMap(self, "EL_MainMenuActions",
 				{
 					"ok":		(self.okbuttonClick, ""),
 					"left":		(self.left, ""),
@@ -123,7 +123,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 					"yellow":	(self.keyYellow, ""),
 					"key_0":	(self.key0, ""),
 				}, -2)
-			
+
 			self.onLayoutFinish.append(self.finishLayout)
 
 		except:
@@ -207,7 +207,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 				if selection[1] == "EL_Screen_Settings":
 					self.currentScreen = self.session.openWithCallback(self.refreshMenu,EL_Screen_Settings)
 					self.currentScreen.setController(self.controller)
-					
+
 				elif selection[1] == "EL_Screen_Tuning":
 					self.currentScreen = self.session.openWithCallback(self.refreshMenu,EL_Screen_Tuning)
 					self.currentScreen.setController(self.controller)
@@ -236,7 +236,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -286,7 +286,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 				self["txt_blue"].hide()
 				self["btn_yellow"].hide()
 				self["txt_yellow"].hide()
-				
+
 				self["btn_green"].show()
 				self["txt_green"].show()
 		else:
@@ -301,7 +301,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			self["txt_blue"].hide()
 			self["btn_yellow"].hide()
 			self["txt_yellow"].hide()
-			
+
 			self["btn_green"].hide()
 			self["txt_green"].hide()
 
@@ -316,21 +316,21 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			self["txt_statusbar"].show()
 
 	#==========================================================================
-	# 
+	#
 	#==========================================================================
 	def up(self):
 		log("",self)
 		self.left()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def down(self):
 		log("",self)
 		self.right()
 
 	#===============================================================================
-	# 
+	#
 	#===============================================================================
 	def right(self):
 		log("",self)
@@ -343,9 +343,9 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 				open(getCrashFilePath(),"w").write(format_exc())
 			except:
 				pass
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def left(self):
 		log("",self)
@@ -358,14 +358,14 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 				open(getCrashFilePath(),"w").write(format_exc())
 			except:
 				pass
-		
-		
+
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def exit(self):
 		log("",self," Main Exit..")
-		
+
 		self.controller.setSession(None) #Set background session
 		self.controller.setScreen(None)
 		self.controller.setMainScreen(None)
@@ -374,7 +374,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 		self.close((True,) )
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def cancel(self):
 		log("",self)
@@ -387,7 +387,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			self.refreshOrientationHorMenu(0)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyGreen(self):
 		#Enabled lights
@@ -401,7 +401,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 		self.controller.Control("start", "dynamic")
 		self.refreshMenu()
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyRed(self):
 		#Disabled lights
@@ -416,7 +416,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 		self["txt_blue"].hide()
 		self["btn_yellow"].hide()
 		self["txt_yellow"].hide()
-		
+
 		self["btn_green"].show()
 		self["txt_green"].show()
 
@@ -424,7 +424,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 		self.refreshMenu()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBlue(self):
 		log("",self)
@@ -444,7 +444,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 		self.refreshMenu()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyYellow(self):
 		log("",self)
@@ -463,7 +463,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			showMessage(self.session,_("Can't switch mode, Lights are disabled."),"I",3)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def refreshMenu(self, s = None):
 		log("",self)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -68,7 +68,7 @@ class EL_Screen_Check(object):
 		self.oeVersion = getBoxArch()
 
 	def checkForUpdate(self,controller):
-		
+
 		self.controller = controller
 
 		log("",self,"Check for update....")
@@ -77,7 +77,7 @@ class EL_Screen_Check(object):
 
 		if testInetConnectivity():
 			self.url = config.plugins.enigmalight.url.value + config.plugins.enigmalight.updatexml.value
-			log("",self,"Checking URL: " + self.url) 
+			log("",self,"Checking URL: " + self.url)
 			try:
 				f = urllib.request.urlopen(self.url)
 				html = f.read()
@@ -114,7 +114,7 @@ class EL_Screen_Check(object):
 					open(getCrashFilePath(),"w").write(format_exc())
 				except:
 					pass
-				
+
 		else:
 			self.controller.setStatusBarInfo(_("No Internetconnection.."))
 			self.session.openWithCallback(self.close, MessageBox,_("No internet connection available or curl is not installed!"), MessageBox.TYPE_INFO)

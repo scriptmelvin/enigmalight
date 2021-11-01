@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 """
 /*
  * EnigmaLight
@@ -23,7 +23,7 @@ class ELightTimer(threading.Thread):
 	def __init__(self):
 		log("",self)
 		threading.Thread.__init__(self)
-		self.session = None 
+		self.session = None
 		self.dialog  = None
 		self.active  = False
 		self.timer   = config.plugins.enigmalight.timer_onoff.value
@@ -51,7 +51,7 @@ class ELightTimer(threading.Thread):
 						log("",self,"Timer start")
 
 						while self.timer != False:
-							
+
 							#time correction
 							self.start_hour = str(config.plugins.enigmalight.time_start.value[0])
 							if len(self.start_hour) == 1:
@@ -65,12 +65,12 @@ class ELightTimer(threading.Thread):
 							self.end_min = str(config.plugins.enigmalight.time_end.value[1])
 							if len(self.end_min) == 1:
 								self.end_min = "0"+self.end_min
-									  
+
 							self.start_time = self.start_hour+":"+self.start_min+":00"
-							self.stop_time  = self.end_hour+":"+self.end_min+":00" 
-							
+							self.stop_time  = self.end_hour+":"+self.end_min+":00"
+
 							self.timer_running = True
-							
+
 							log("",self,"Time: "+ str(time.strftime("%H:%M:%S")));
 
 							if self.controller != None:
@@ -112,7 +112,7 @@ class ELightTimer(threading.Thread):
 	def setSession(self, session):
 		log("",self,"")
 		self.session = session
-		
+
 	def setController(self, controller):
 		log("",self,"")
 		self.controller = controller

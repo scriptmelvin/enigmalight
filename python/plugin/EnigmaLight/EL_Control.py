@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code are from other plugins:
@@ -45,7 +45,7 @@ class Controller(threading.Thread):
 		log("",self)
 		threading.Thread.__init__(self)
 		self.sockClass = EL_Socket()
-		
+
 		self.session = None
 		self.global_session = None
 		self.checkedForUpdates = False
@@ -72,7 +72,7 @@ class Controller(threading.Thread):
 		self.status_text = ""
 		self.serverstate = False
 
-		self.thread_running = True 
+		self.thread_running = True
 
 		#Run this thread as daemon
 		self.setDaemon(True)
@@ -84,11 +84,11 @@ class Controller(threading.Thread):
 		self.currentScreen = screenInstance
 
 	def setMainScreen(self, value):
-		self.mainScreen = value	
+		self.mainScreen = value
 
 	def run(self):
 		log("",self,"ControlThread: Running...")
-		
+
 		checkLoop = 4 # check every 2 sec for cpu usage
 		loopCount = 0
 
@@ -119,7 +119,7 @@ class Controller(threading.Thread):
 			#check mode
 			if config.plugins.enigmalight.network_onoff.value:
 				ext = _("Daemon %s:%s") % (str(config.plugins.enigmalight.address.getText()),str(config.plugins.enigmalight.port.getText()))
-			elif config.plugins.enigmalight.type.value == "WifiLight": 
+			elif config.plugins.enigmalight.type.value == "WifiLight":
 				ext = _("Local [Wifilight] %s:%s") % (str(config.plugins.enigmalight.wifilight_ip.getText()),str(config.plugins.enigmalight.wifilight_port.getText()))
 			else:
 				ext = _("Local")
@@ -356,7 +356,7 @@ class Controller(threading.Thread):
 					checkResult = True
 					self.startConsole = Console()
 					self.startConsole.ePopen(str(control['startcommand']), self.DoControl, [checkResult, control, callback])
-				
+
 				#If network mode is used
 				elif control['command'] == "network":
 					#connect client with host
@@ -445,7 +445,7 @@ class Controller(threading.Thread):
 						showMessage(self.session,_("Control: Lights enabled, mode[%s]") %(str(config.plugins.enigmalight.moodlamp_mode.getText())),"I")
 
 				elif control['value'] == "sleep":
-					
+
 					if config.plugins.enigmalight.standbymode.value == str(1):
 						#Start Moodlamp
 						ret = self.writeMoodlamp()
@@ -490,7 +490,7 @@ class Controller(threading.Thread):
 						showError(self.session, (format_exc()), "E")
 				except:
 					pass
-			
+
 	def controlMode(self):
 		log("",self)
 		if config.plugins.enigmalight.mode.value == str(1):
@@ -529,7 +529,7 @@ class Controller(threading.Thread):
 
 		#self.getPid(None,None,self.killEnimgalightNow) #getpid and kill enigmalight
 		self.killEnigmalightNow(None,None)
-	
+
 	def killEnigmalightNow(self, values = None, callback = None):
 		log("",self)
 
@@ -550,7 +550,7 @@ class Controller(threading.Thread):
 				open(getCrashFilePath(),"w").write(format_exc())
 			except:
 				pass
-		
+
 	def killEnigmalightFinisched(self, result, retval, extra_args = None):
 		log("",self)
 		(values, callback) = extra_args
@@ -560,7 +560,7 @@ class Controller(threading.Thread):
 		log("",self,"callback " + str(callback))
 
 		time.sleep(1)
-		
+
 		if len(str(result)) == 0:
 			self.setStatusBarInfo(_("Enigmalight killed."))
 
@@ -602,7 +602,7 @@ class Controller(threading.Thread):
 
 		# Moodlamp, set threshold to 0
 		data ="set threshold 0\n"
-  
+
 		if config.plugins.enigmalight.moodlamp_mode.getValue() == str(1):
 
 			###############
@@ -618,7 +618,7 @@ class Controller(threading.Thread):
 			###############
 			# Rgb test
 			###############
-			
+
 			data +="set mode 3\n"
 
 		elif config.plugins.enigmalight.moodlamp_mode.getValue() == str(4):
@@ -653,7 +653,7 @@ class Controller(threading.Thread):
 
 		data ="set threshold " + str(config.plugins.enigmalight.threshold.getValue()) + "\n"
 		data +="set mode 2\n"
-		self.sockClass.setCommand(data)	
+		self.sockClass.setCommand(data)
 
 	#===============================================================================
 	#
@@ -709,11 +709,11 @@ class Controller(threading.Thread):
 
 				#elif currentoption == config.plugins.enigmalight.presets: #send all setting
 				#	self.sendAll()
-					
+
 				elif currentoption == config.plugins.enigmalight.moodlamp_static_color_r or currentoption == config.plugins.enigmalight.moodlamp_static_color_g or currentoption == config.plugins.enigmalight.moodlamp_static_color_b or currentoption == config.plugins.enigmalight.moodlamp_fader_brightness or currentoption == config.plugins.enigmalight.adjustr or currentoption == config.plugins.enigmalight.adjustg or currentoption == config.plugins.enigmalight.adjustb or currentoption == config.plugins.enigmalight.use_live_adjust:
-					
+
 					data = self.writeAdjust()
-					
+
 					#data +="set color_sequence " + str(config.plugins.enigmalight.color_sequence.getValue()) + "\n"
 
 					if self.current_mode != "2" and self.current_mode != None:
@@ -835,10 +835,10 @@ class Controller(threading.Thread):
 		log("",self)
 
 		if sendValues == True or self.current_mode != "99" and self.current_mode != "off": #only send values if grabber or moodlamp is running
-			
+
 			if self.sockClass.ping():
 				self.setStatusBarInfo(_("Set all values.."))
-				
+
 				##################################
 				# Set mode, color etc...
 				##################################

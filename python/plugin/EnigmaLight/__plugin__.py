@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -28,7 +28,7 @@ from .__common__ import EnigmaLight_log as log
 gPlugins = []
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def registerPlugin(plugin):
 	ps = []
@@ -40,7 +40,7 @@ def registerPlugin(plugin):
 		if p not in gPlugins:
 			gPlugins.append(p)
 #===============================================================================
-# 
+#
 #===============================================================================
 def getPlugins(where = None):
 	if where is None:
@@ -50,24 +50,24 @@ def getPlugins(where = None):
 		for plugin in gPlugins:
 			if plugin.where == where:
 				plist.append(plugin)
-		
+
 		plist.sort(key=lambda x: x.weight)
 		return plist
-	
+
 #===============================================================================
-# 
+#
 #===============================================================================
 def getPlugin(pid, where):
 	for plugin in gPlugins:
 		if plugin.pid == pid and plugin.where == where:
-			
+
 
 			return plugin
 
 	return None
 
 #===============================================================================
-# 
+#
 #===============================================================================
 class Plugin(object):
 	# constants
@@ -84,7 +84,7 @@ class Plugin(object):
 	where = None
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def __init__(self, pid, name=None, desc=None, start=None, where=None, fnc=None):
 		self.pid = pid

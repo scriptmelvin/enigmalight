@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from other plugins:
@@ -79,13 +79,13 @@ def rmFile(fn):
 			EnigmaLight_log("",None,"__common__::rmFile() > Error delete " +fn)
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def EnigmaLight_log(level="", parent=None,string=""):
 	if config.plugins.enigmalight.EnableEventLog.value != "0": #if not off
 
 			try:
-				
+
 				if len(string) > 0:
 					string = " > " + string
 
@@ -104,7 +104,7 @@ def EnigmaLight_log(level="", parent=None,string=""):
 						out = str(classname) + str(sys._getframe(1).f_code.co_name) + str(string)
 					else:
 						out = str(parent) + str(string)
-				
+
 				if level == "D":
 					print(("[EnigmaLight] [" + level + "] " + str(out)))
 
@@ -122,12 +122,12 @@ def EnigmaLight_log(level="", parent=None,string=""):
 				print("",strftime("%H:%M:%S"),"Logging-Error")
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def testInetConnectivity(target="http://www.google.com"):
 	"""
 	test if we get an answer from the specified url
-	
+
 	@param target:
 	@return: bool
 	"""
@@ -154,12 +154,12 @@ def testInetConnectivity(target="http://www.google.com"):
 		return False
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def testDaemonConnectivity(ip, port):
 	"""
 	test if the light server (boblightd) is online on the specified port
-	
+
 	@param ip: e.g. 192.168.0.1
 	@param port: e.g. 32400
 	@return: bool
@@ -173,7 +173,7 @@ def testDaemonConnectivity(ip, port):
 	try:
 		sock.settimeout(5)
 		sock.connect((ip, port))
-		sock.close() 
+		sock.close()
 		return True
 	except socket.error as e:
 		sock.close()
@@ -183,20 +183,20 @@ def testDaemonConnectivity(ip, port):
 def loadEnigmalightSkin():
 	"""
 	loads the corresponding skin.xml file
-	
-	@param: none 
+
+	@param: none
 	@return none
 	"""
-	
+
 	width = getDesktop(0).size().width()
 	height = getDesktop(0).size().height()
 
-	skin = "/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/skin-hd.xml" 
+	skin = "/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/skin-hd.xml"
 
 	#load fullhd skin when fullhd framebuffer is used.
 	if width > 1280 and height > 720:
 		skin = "/usr/lib/enigma2/python/Plugins/Extensions/EnigmaLight/skins/default/skin-fullhd.xml"
-		
+
 	if skin:
 		loadSkin(skin)
 
@@ -216,8 +216,8 @@ def loadEnigmalightSkin():
 def registerEnigmalightFonts():
 	"""
 	registers fonts for skins
-	
-	@param: none 
+
+	@param: none
 	@return none
 	"""
 	EnigmaLight_log("",None,"__common__::registerEnigmalightFonts()")
@@ -231,12 +231,12 @@ def registerEnigmalightFonts():
 		addFont(path, name, size, False)
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def checkDirectory(directory):
 	"""
 	checks if dir exists. if not it is added
-	
+
 	@param directory: e.g. /media/hdd/
 	@return: none
 	"""
@@ -250,7 +250,7 @@ def checkDirectory(directory):
 		pass
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def getBoxInformation():
 
@@ -406,7 +406,7 @@ def getBoxInformation():
 	return boxData
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def getBoxArch():
 
@@ -578,14 +578,14 @@ def formatTime(msec):
 		return "%i" % seconds
 
 #===============================================================================
-# 
+#
 #===============================================================================
 def getScale():
 	EnigmaLight_log("",None,"__common__::getScale()")
 	return AVSwitch().getFramebufferScale()
 
 #===========================================================================
-# 
+#
 #===========================================================================
 def checkXmlFile(location):
 	EnigmaLight_log("",None,"__common__::checkXmlFile()")
@@ -593,7 +593,7 @@ def checkXmlFile(location):
 		with open(location, "a") as writefile:
 			writefile.write("<xml></xml>")
 #===========================================================================
-# 
+#
 #===========================================================================
 def getXmlContent(location):
 	EnigmaLight_log("",None,"__common__::getXmlContent()")
@@ -615,7 +615,7 @@ def getXmlContent(location):
 	return tree
 
 #===========================================================================
-# 
+#
 #===========================================================================
 def writeXmlContent(content, location):
 	EnigmaLight_log("",None,"__common__::writeXmlContent()")
@@ -626,7 +626,7 @@ def writeXmlContent(content, location):
 	fobj.close()
 
 #===========================================================================
-# 
+#
 #===========================================================================
 def indentXml(elem, level=0, more_sibs=False):
 	EnigmaLight_log("",None,"__common__::indentXml()")
@@ -667,7 +667,7 @@ def durationToTime(duration):
 
 
 #===========================================================================
-# 
+#
 #===========================================================================
 def loadPicture(filename):
 	EnigmaLight_log("",None,"__common__::loadPicture()")
@@ -682,7 +682,7 @@ def loadPicture(filename):
 		if not ptr:
 			# kind of fallback if filetype is declared wrong
 			ptr = loadPNG(filename)
-	
+
 	return ptr
 
 def getRGB(r,g,b):
@@ -720,18 +720,18 @@ def validIP(address):
 def showMessage(session, message, msg_type, timeout = 3):
 	EnigmaLight_log("",None,"__common__::showMessage()")
 	if session != None:
-		s = "" 
+		s = ""
 		if msg_type == "I":
 			msg_type = MessageBox.TYPE_INFO
-			s = "" 
+			s = ""
 		elif msg_type == "W":
-			s = "Warning: " 
+			s = "Warning: "
 			msg_type = MessageBox.TYPE_WARNING
 		elif msg_type == "E":
 			msg_type = MessageBox.TYPE_ERROR
 		else:
 			msg_type = MessageBox.TYPE_INFO
-		
+
 		session.open(MessageBox, _(s + message), msg_type, timeout)
 
 def showError(session, ex, msg_type, timeout = 10):

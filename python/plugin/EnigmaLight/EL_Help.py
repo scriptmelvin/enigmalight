@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -47,7 +47,7 @@ class EL_Screen_Help(Screen):
 	def __init__(self, session):
 		log("",self)
 		Screen.__init__(self, session)
-		
+
 		self._session = session
 		self.controller = None
 		self["content"] = Label()
@@ -60,11 +60,11 @@ class EL_Screen_Help(Screen):
 		{
 			"cancel": self.keyCancel,
 		}, -2)
-		
+
 		self.onLayoutFinish.append(self.finishLayout)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def finishLayout(self):
 		log("",self)
@@ -83,7 +83,7 @@ class EL_Screen_Help(Screen):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -108,21 +108,21 @@ class EL_Screen_Help(Screen):
 			self["txt_statusbar"].show()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setController(self, controller):
 		self.controller = controller
 		self.controller.setSession(self.session)
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyCancel(self):
 		log("",self)
 		self.close()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def getContentText(self):
 		log("",self)

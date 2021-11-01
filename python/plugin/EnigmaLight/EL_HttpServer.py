@@ -62,7 +62,7 @@ def HttpdStop(session):
 #
 # Helper class to stop running web servers; we use a class here to reduce use
 # of global variables. Resembles code prior found in HttpdStop et. al.
-# 
+#
 class StopServer:
 	server_to_stop = 0
 

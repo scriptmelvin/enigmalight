@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 EnigmaLight Plugin by Speedy1985, 2014
- 
+
 https://github.com/speedy1985
 
 Parts of the code is from DonDavici (c) 2012 and other plugins:
@@ -53,16 +53,16 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 	_hasChanged = False
 	_session = None
 	skins = None
-	
+
 	def __init__(self, session):
 		try:
 			log("",self)
 			Screen.__init__(self, session)
 			HelpableScreen.__init__(self)
-			
+
 			self.cfglist = []
 			ConfigListScreen.__init__(self, self.cfglist, session, on_change = self._changed)
-			
+
 			self._session = session
 			self._hasChanged = False
 
@@ -70,17 +70,17 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			self.selected = None
 
 			self.aspect = getAspect()
-			self.old_service = self.session.nav.getCurrentlyPlayingServiceReference()	
-			
+			self.old_service = self.session.nav.getCurrentlyPlayingServiceReference()
+
 			# Disable OSD Transparency
 			try:
 				self.can_osd_alpha = open("/proc/stb/video/alpha", "r") and True or False
 			except:
 				self.can_osd_alpha = False
-			
+
 			if config.plugins.enigmalight.sampleBackground.getValue() == True:
 				self.showBackground()
-			
+
 			self["txt_green"] = Label()
 			self["btn_green"] = Pixmap()
 
@@ -89,7 +89,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			self["txt_statusbar_info"] = Label()
 
 			self["help"] = StaticText()
-			
+
 			self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "EL_Settings"],
 			{
 				"green": self.keySave,
@@ -107,7 +107,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			self["txt_green"].setText(_("Save"))
 
 			self.createSetup()
-			
+
 			self.onLayoutFinish.append(self.finishLayout)
 
 		except:
@@ -117,9 +117,9 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 				open(getCrashFilePath(),"w").write(format_exc())
 			except:
 				pass
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def finishLayout(self):
 		log("",self)
@@ -133,9 +133,9 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			self["statusbar"].show()
 			self["txt_statusbar"].show()
 			self["txt_statusbar_info"].show()
-			
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def setController(self, controller):
 		self.controller = controller
@@ -143,7 +143,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 
 	#==========================================================================
 	# Functions for use from others thread
-	#==========================================================================	
+	#==========================================================================
 	def handleFromThread(self,func,*args):
 		if args:
 			callOnMainThread(func,args[0])
@@ -170,11 +170,11 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			self["statusbar"].show()
 			self["txt_statusbar_info"].show()
 			self["txt_statusbar"].show()
-			
+
 
 	def keyNext(self):
 		log("",self)
-		self.selected = self["config"].getCurrent()[1] 
+		self.selected = self["config"].getCurrent()[1]
 		if self.selected == config.plugins.enigmalight.adjustr:
 			config.plugins.enigmalight.adjustr.setValue(Clamp(config.plugins.enigmalight.adjustr.getValue()+10,0,255))
 		elif self.selected == config.plugins.enigmalight.adjustg:
@@ -183,7 +183,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			config.plugins.enigmalight.adjustb.setValue(Clamp(config.plugins.enigmalight.adjustb.getValue()+10,0,255))
 		self.createSetup()
 		self._changed()
-	
+
 	def keyPrev(self):
 		log("",self)
 		self.selected = self["config"].getCurrent()[1]
@@ -198,7 +198,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def createSetup(self):
 		log("",self)
@@ -213,7 +213,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			r = config.plugins.enigmalight.adjustr.getValue()
 			g = config.plugins.enigmalight.adjustg.getValue()
 			b = config.plugins.enigmalight.adjustb.getValue()
-			
+
 			if config.plugins.enigmalight.color_sequence.value == "0":
 				self.list.append(getConfigListEntry(_('- Adjust RED   %s\t   ')% str(r), config.plugins.enigmalight.adjustr))
 				self.list.append(getConfigListEntry(_('- Adjust GREEN %s\t   ')% str(g), config.plugins.enigmalight.adjustg))
@@ -247,7 +247,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 		#self["config"].l.setList(self.cfglist)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def _changed(self):
 		self._hasChanged = True
@@ -267,7 +267,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 		# Restart old service
 		self.session.nav.stopService()
 		self.session.nav.playService(self.old_service)
-		
+
 		## Restore OSD Transparency Settings
 		os.system("echo " + hex(0)[2:] + " > /proc/stb/vmpeg/0/dst_top")
 		os.system("echo " + hex(0)[2:] + " > /proc/stb/vmpeg/0/dst_left")
@@ -290,7 +290,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 			self.can_osd_alpha = open("/proc/stb/video/alpha", "r") and True or False
 		except:
 			self.can_osd_alpha = False
-		
+
 		if self.can_osd_alpha:
 			open("/proc/stb/video/alpha", "w").write(str("255"))
 
@@ -300,33 +300,33 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 		### END TEST ###
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def updateHelp(self):
 		log("",self)
 		cur = self["config"].getCurrent()
 		self["help"].text = cur and cur[2] or "empty"
-		
+
 	#==========================================================================
-	# 
+	#
 	#==========================================================================
 	def setStatusBarInfo(self,text):
 		self["txt_statusbar_info"].setText(text)
 
 	#==========================================================================
-	# 
+	#
 	#==========================================================================
 	def setStatusBarTxt(self,text):
 		self["txt_statusbar"].setText(text)
-	
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def ok(self):
 		cur = self["config"].getCurrent()
-		
+
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keySave(self):
 		log("",self)
@@ -334,7 +334,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 		self.close(None)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 
 	def keyLeft(self):
@@ -343,7 +343,7 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 		self.createSetup()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyRight(self):
 		log("",self)
@@ -351,14 +351,14 @@ class EL_Screen_Adjust(Screen, ConfigListScreen, HelpableScreen):
 		self.createSetup()
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetUp(self):
 		log("",self)
 		self["config"].instance.moveSelection(self["config"].instance.pageUp)
 
 	#===========================================================================
-	# 
+	#
 	#===========================================================================
 	def keyBouquetDown(self):
 		log("",self)
