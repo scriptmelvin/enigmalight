@@ -973,7 +973,7 @@ class EL_Screen_ConfigEditor(Screen, ConfigListScreen):
 					length = len(s)
 					mini = length -3
 
-					if length is 4 or length > 4:
+					if length == 4 or length > 4:
 						s = s[:-mini]
 
 					if self.createfile:
