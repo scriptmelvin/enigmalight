@@ -179,7 +179,7 @@ class ExtendedColorLight:
             green = int(rstring[3:5], 16)
             blue = int(rstring[5:], 16)
 
-        print red, green, blue
+        print(red, green, blue)
 
         # We need to convert the RGB value to Yxy.
         redScale = float(red) / 255.0

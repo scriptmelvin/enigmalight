@@ -16,12 +16,12 @@ try:
   UDP_IP = customsettings[0]
   UDP_PORT = int(customsettings[1])
 
-  print "Try connection.." 
+  print("Try connection..")
 
   sock.sendto("\x40\x00\x55", (UDP_IP, UDP_PORT))
   sock.sendto("\x42\x55", (UDP_IP, UDP_PORT))
 
-  print "Talking to WifiLight @ %s:%s..." %(UDP_IP,UDP_PORT)
+  print("Talking to WifiLight @ %s:%s..." %(UDP_IP,UDP_PORT))
 
 except:
   from traceback import format_exc
@@ -61,8 +61,8 @@ def popen():
     else:
       break
 
-  print "Disconnected, Exit..."
+  print("Disconnected, Exit...")
 import time
 time.sleep(3)
-print "Ready..."
+print("Ready...")
 popen()
