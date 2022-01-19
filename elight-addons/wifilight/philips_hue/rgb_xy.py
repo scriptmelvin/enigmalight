@@ -257,4 +257,4 @@ class Converter:
         r = self.color.random_rgb_value()
         g = self.color.random_rgb_value()
         b = self.color.random_rgb_value()
-	return self.rgb_to_xy(r, g, b)
+        return self.rgb_to_xy(r, g, b)
