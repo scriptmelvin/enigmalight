@@ -97,7 +97,8 @@ class EL_Socket(object):
 			try:
 
 				log("E",self,data)
-				self.sock.send(data+"\n")
+				data=data+"\n"
+				self.sock.send(data.encode("utf-8"))
 
 				returned = str(self.sock.recv(1024))
 				log("E",self,"returned: %s " % (returned))
@@ -119,7 +120,7 @@ class EL_Socket(object):
 
 				#Strings to lowercase
 				data = data.lower()
-				self.sock.send(data)
+				self.sock.send(data.encode("utf-8"))
 
 				#returned = str(self.sock.recv(1024))
 				#log("",self,"returned: %s " % (returned))
@@ -129,11 +130,12 @@ class EL_Socket(object):
 				returned = None
 			finally:
 				return returned
+		return returned
 
 	def ping(self):
 		log("E",self,"")
 		try:
-			self.sock.send("ping\n")
+			self.sock.send(b"ping\n")
 			returned = str(self.sock.recv(1024))
 			log("E",self,"returned: %s " % (returned))
 			if returned == "ping":
@@ -188,3 +190,4 @@ class EL_Socket(object):
 			ret = False
 
 		return ret
+	
