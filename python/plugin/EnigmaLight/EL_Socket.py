@@ -100,7 +100,7 @@ class EL_Socket(object):
 				data=data+"\n"
 				self.sock.send(data.encode("utf-8"))
 
-				returned = str(self.sock.recv(1024))
+				returned = str(self.sock.recv(1024).decode())
 				log("E",self,"returned: %s " % (returned))
 
 			except socket.error as msg:
@@ -190,4 +190,3 @@ class EL_Socket(object):
 			ret = False
 
 		return ret
-	
