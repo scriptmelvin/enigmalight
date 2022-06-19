@@ -193,7 +193,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 		self.cfglist.append(getConfigListEntry(_('- Moodlamp Mode:'), config.plugins.enigmalight.moodlamp_mode, _(" ")))
 		#self.cfglist.append(getConfigListEntry(_('- Color order:'), config.plugins.enigmalight.color_order, _(" ")))
 
-		if config.plugins.enigmalight.moodlamp_mode.value is str(1):
+		if config.plugins.enigmalight.moodlamp_mode.value == str(1):
 
 			r = config.plugins.enigmalight.moodlamp_static_color_r.getValue()
 			g = config.plugins.enigmalight.moodlamp_static_color_g.getValue()
@@ -226,7 +226,7 @@ class EL_Screen_Moodlamp(Screen, ConfigListScreen, HelpableScreen):
 				self.cfglist.append(getConfigListEntry(_('- Color GREEN : %s\t') % str(b), config.plugins.enigmalight.moodlamp_static_color_b, _(" ")))
 			"""
 
-		if config.plugins.enigmalight.moodlamp_mode.value is str(4):
+		if config.plugins.enigmalight.moodlamp_mode.value == str(4):
 			self.cfglist.append(getConfigListEntry(_('- Fader brightness : %s\t') % str(config.plugins.enigmalight.moodlamp_fader_brightness.getValue()), config.plugins.enigmalight.moodlamp_fader_brightness, _(" ")))
 		self["config"].list = self.cfglist
 		self["config"].l.setList(self.cfglist)

@@ -705,7 +705,7 @@ def getAspect():
 def rgbToHex(r,g,b):
 	EnigmaLight_log("",None,"__common__::rgbToHex()")
 	hexchars = "0123456789ABCDEF"
-	return hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16]
+	return hexchars[r // 16] + hexchars[r % 16] + hexchars[g // 16] + hexchars[g % 16] + hexchars[b // 16] + hexchars[b % 16]
 
 def validIP(address):
 	EnigmaLight_log("",None,"__common__::validIP()")

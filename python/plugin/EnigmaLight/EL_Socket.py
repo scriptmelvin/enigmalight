@@ -136,7 +136,7 @@ class EL_Socket(object):
 		log("E",self,"")
 		try:
 			self.sock.send(b"ping\n")
-			returned = str(self.sock.recv(1024))
+			returned = str(self.sock.recv(1024).decode())
 			log("E",self,"returned: %s " % (returned))
 			if returned == "ping":
 				return True
