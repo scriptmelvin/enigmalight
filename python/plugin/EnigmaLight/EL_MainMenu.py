@@ -59,6 +59,25 @@ CONTROLLER_INSTANCE = None
 #===============================================================================
 #
 #===============================================================================
+
+class EL_List(List):
+	def __init__(self):
+		List.__init__(self)
+
+	def selectPrevious(self):
+		if self.getIndex() - 1 < 0:
+			self.index = self.count() - 1
+		else:
+			self.index -= 1
+		self.setIndex(self.index)
+
+	def selectNext(self):
+		if self.getIndex() + 1 >= self.count():
+			self.index = 0
+		else:
+			self.index += 1
+		self.setIndex(self.index)
+
 class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 
 	selectedEntry = None
@@ -92,7 +111,7 @@ class EL_Screen_MainMenu(Screen, EL_Helper_HorizontalMenu):
 			self.translateNames()
 
 			# Menu
-			self["menu"]= List(enableWrapAround=True)
+			self["menu"]= EL_List()
 
 			# Buttons
 			self["txt_green"] = Label()
