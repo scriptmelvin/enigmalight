@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <sys/wait.h>
+
 // Util includes
 #include "Util/Inclstdint.h"
 #include "Util/Misc.h"
@@ -108,15 +110,23 @@ bool CFrameGrabber::Setup()
   	}
 }
 
-bool CFrameGrabber::grabFrameNew(CBitmap* bitmap, int skiplines)
-{
-	int fd_video = open("/dev/dvb/adapter0/video0", O_RDONLY);
-	if (fd_video < 0) {
-		perror("/dev/dvb/adapter0/video0");
-		return false;
+#define PERROR(R, C, S) (R) = (C); if ((R) < 0) { perror((S)); exit(errno); }
+
+ssize_t readall(int fd, void *buf, ssize_t count) {
+	ssize_t nbytes, bytesleft = count;
+	char *p = (char *)buf;
+	while (bytesleft) {
+		PERROR(nbytes, read(fd, p, bytesleft), "read");
+		if (nbytes == 0) break; // EOF
+		bytesleft -= nbytes;
+		p += nbytes;
 	}
-	ssize_t r = read(fd_video, bitmap->m_data, 1920 * 1080 * 3);
-	close(fd_video);
+	return count - bytesleft;
+}
+
+bool CFrameGrabber::grabFrame(CBitmap* bitmap, int skiplines)
+{
+	m_noVideo = true;
 	int xres_orig = 1920;
 	int yres_orig = 1080;
 	int skipres = yres_orig;
@@ -127,309 +137,62 @@ bool CFrameGrabber::grabFrameNew(CBitmap* bitmap, int skiplines)
 	}
 	if (yres_orig%2 == 1)
 		yres_orig--;
-	bitmap->YUV2RGB();
 	bitmap->SetYres(yres_orig/skiplines);
 	bitmap->SetXres(xres_orig/skiplines);
 	bitmap->SetYresOrig(yres_orig);
 	bitmap->SetXresOrig(xres_orig);
-	return true;
-}
-
-bool CFrameGrabber::grabFrame(CBitmap* bitmap, int skiplines)
-{
-	m_noVideo = false;
-
-	int stride = 0;
-
-	unsigned char* memory_tmp;
-
-	//grab pic from decoder memory
-	const unsigned char* data = (unsigned char*)mmap(0, 100, PROT_READ, MAP_SHARED, mem_fd, m_stb.registeroffset);
-
-	if(data == MAP_FAILED){
-		if(m_errorGiven != true)
-			LogError("Mainmemory data: <Memmapping failed>");
-		return false;
-	}
-
-    unsigned int adr,adr2,ofs,ofs2,offset,pageoffset,counter=0;
-    
-    // Wait till we get a sync from the videodecoder.
-    while (1) {
-        unsigned int val = ((volatile unsigned int*)data)[0x30/4];
-        if (val & 1){
-            int ignored __attribute__((unused));
-            ignored = nice(0);
-            break;
-        }        
-
-        usleep(1000);
-        counter++;
-        
-        if(counter > 50)
-            break;
-    }    
-
-    //
-    // Get data from decoder, offset, adres and stride(x resolution)
-    //
-	if (m_stb.stb_type == BRCM73565 || m_stb.stb_type == BRCM73625 || m_stb.stb_type == BRCM7376 || m_stb.stb_type == BRCM7251 || m_stb.stb_type == BRCM7252 || m_stb.stb_type == BRCM7278 || m_stb.stb_type == BRCM7444 || m_stb.stb_type == TEST1 || m_stb.stb_type == TEST2 || m_stb.stb_type == TEST3 || m_stb.stb_type == TEST4 || m_stb.stb_type == TEST6 || m_stb.stb_type == TEST7 || m_stb.stb_type == TEST8) {
-		// Parameter for ARM
-		ofs 	= data[m_stb.chr_luma_register_offset + 24] << 4;      /* luma lines */
-		ofs2 	= data[m_stb.chr_luma_register_offset + 28] << 4;    /* chroma lines */	
-		adr 	= (data[0x37] << 24 | data[0x36] << 16 | data[0x35] << 8); /* start of videomem */
-		adr2 	= (data[m_stb.chr_luma_register_offset + 3] << 24 | data[m_stb.chr_luma_register_offset + 2] << 16 | data[m_stb.chr_luma_register_offset + 1] << 8);
-		stride = data[0x19] << 8 | data[0x18];
-		
+	int r, outpipe[2], errpipe[2];
+	pid_t pid;
+	PERROR(r, pipe(outpipe), "pipe");
+	PERROR(r, pipe(errpipe), "pipe");
+	PERROR(pid, fork(), "fork");
+	if (pid == 0) {
+		//child
+		dup2 (outpipe[1], STDOUT_FILENO);
+		close(outpipe[0]);
+		close(outpipe[1]);
+		dup2 (errpipe[1], STDERR_FILENO);
+		close(errpipe[0]);
+		close(errpipe[1]);
+		PERROR(r, execl("/usr/bin/grab", "grab", "-v", "-s", (char *)0), "execl");
 	} else {
-		// Parameter for MIPS and PPC and TEST5
-		ofs 	= data[m_stb.chr_luma_register_offset + 8] << 4;      /* luma lines */
-		ofs2 	= data[m_stb.chr_luma_register_offset + 12] << 4;    /* chroma lines */	
-		adr 	= (data[0x1f] << 24 | data[0x1e] << 16 | data[0x1d] << 8); /* start of videomem */
-		adr2 	= (data[m_stb.chr_luma_register_offset + 3] << 24 | data[m_stb.chr_luma_register_offset + 2] << 16 | data[m_stb.chr_luma_register_offset + 1] << 8);
-		stride = data[0x15] << 8 | data[0x14];
-	}
-
-	// Get actual resolution and save it.
-	//
-	getResolution(bitmap, stride, GetTimeSec<long double>());
-
-	int xres_orig = bitmap->GetXresOrig();
-	int yres_orig = bitmap->GetYresOrig();
-
-	//
-	// Set offsets and adres
-	//
-	offset 		= adr2-adr;
-	pageoffset 	= adr & 0xfff;
-	adr 		-= pageoffset;
-	adr2 		-= pageoffset;
-	
-	//
-	// Unmap memory
-	//
-	munmap((void*)data, 100);
-
-	//
-    // Check that obtained values are sane and prevent segfaults.
-    //
-    if (!adr || !adr2 || (adr2 <= adr) || yres_orig <= 0 || xres_orig <= 0)
-    {        
-        // we need this m_errorGiven bool, others we get a loop of 1000 errors in some seconds.
-        if(m_errorGiven != true){
-            if(m_grabber->m_debug)
-                LogError("Got invalid memory offsets, retry... (adr=0x%x,adr2=0x%x)", adr, adr2);             
-            m_errorGiven = true;
-        }
-
-        // Reset orginal resolution
-        bitmap->SetXresOrig(0);
-        bitmap->SetYresOrig(0);
-        
-        m_noVideo = true;
-        
-        return false;
-	}
-	else if (stride < bitmap->GetXresOrig()/2)
-	{
-	    if(m_errorGiven != true){
-	        if(m_grabber->m_debug)
-                LogError("X-Resolution != stride: %d",stride);
-            m_errorGiven = true;
-        }
-		m_noVideo = true;
-		return false;
-	}
-
-	int memory_tmp_size = 0;
-
-	//
-	// set original resolution from stride
-	//
-	xres_orig = stride;
-    
-    //
-    // Check wich resolution is higher
-    //
-    int skipres = yres_orig;
-    if(xres_orig > yres_orig)
-        skipres = xres_orig;
-    
-    //
-    // Calculate skiplines (power of 2)
-    //
-    while(skipres/skiplines > 128){
-        skiplines *= 2;
-    }
- 	
- 	//
- 	// Get frame from decoder
- 	//
-	if (!m_stb.mem2memdma_register)
-	{ 	    
-		// on dm800/dm500hd we have direct access to the decoder memory
-		memory_tmp_size = offset + (stride + m_stb.chr_luma_stride) * ofs2;
-
-		memory_tmp = (unsigned char*)mmap(0, memory_tmp_size, PROT_READ, MAP_SHARED, mem_fd, adr);
-        
-		if (memory_tmp == MAP_FAILED || memory_tmp == NULL) {
-		    
-		    if(m_errorGiven != true){
-		        LogError("Mainmemory: <Memmapping failed>");
-		        m_errorGiven = true;
-		    }
-			m_noVideo = true;return false;
+		// parent
+		unsigned char buf[1920 * 1080 * 3 + 54];
+		readall(outpipe[0], buf, 1920 * 1080 * 3 + 54);
+		close(outpipe[1]);
+		close(errpipe[1]);
+		close(errpipe[0]);
+		close(outpipe[0]);
+		wait(NULL);
+		unsigned char *bmp = buf + 54; // skip bmp header
+		if (bitmap->m_data) {
+			free(bitmap->m_data);
 		}
-
+		int xres = bitmap->GetXres(), yres = bitmap->GetYres();
+		if (!(bitmap->m_data = (unsigned char *)malloc(xres * yres * 3))) {
+			Log("out of memory");
+			exit(EXIT_FAILURE);
+		}
+		for (int y = 0; y < yres; ++y) {
+			for (int x = 0; x < xres; ++x) {
+				int src_offset = 3 * (1920 * ((yres - 1 - y) * skiplines + skiplines / 2) + (x * skiplines + skiplines / 2));
+				int dst_offset = 3 * (xres * y + x);
+				bitmap->m_data[dst_offset]     = bmp[src_offset + 2];
+				bitmap->m_data[dst_offset + 1] = bmp[src_offset + 1];
+				bitmap->m_data[dst_offset + 2] = bmp[src_offset];
+			}
+		}
+		m_noVideo = false;
+		/*
+		int im = open("/tmp/s.dat", O_WRONLY | O_CREAT);
+		if (im < 0) {
+			perror("open");
+			exit(EXIT_FAILURE);
+		}
+		write(im, bitmap->m_data, xres * yres * 3);
+		close(im);
+		*/
 	}
-	else
-	{
-        int tmp_size  = offset + (stride + m_stb.chr_luma_stride) * ofs2;
-        
-		if (tmp_size > 2 * DMA_BLOCKSIZE)
-		{
-		    if(m_errorGiven != true){
-                LogError("Got invalid stride value from the decoder: %d", stride);
-			    m_errorGiven = true;
-			} 
-			m_noVideo=true;return false;
-		}
-		
-		memory_tmp_size = DMA_BLOCKSIZE + 0x1000;
-		
-		memory_tmp = (unsigned char*)mmap(0, DMA_BLOCKSIZE + 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, mem_fd, SPARE_RAM);
-		volatile unsigned long *mem_dma;
-		
-		if(!(mem_dma = (volatile unsigned long*)mmap(0, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, mem_fd, m_stb.mem2memdma_register)))
-		{
-		    if(m_errorGiven != true){
-                LogError("Mainmemory: <Memmapping failed>");
-                m_errorGiven = true;
-            }    
-			m_noVideo=true;return false;
-		}
-
-		int i = 0;
-		int tmp_len = DMA_BLOCKSIZE;
-		
-		for (i=0; i < tmp_size; i += DMA_BLOCKSIZE)
-		{
-			unsigned long *descriptor = (unsigned long*)memory_tmp;
-
-			if (i + DMA_BLOCKSIZE > tmp_size)
-				tmp_len = tmp_size - i;
-			
-	        if(m_grabber->m_grabinfo)
-    			Log("GrabInfo -> DMACopy: %x (%d) size: %d\n", adr+i, i, tmp_len);
-			
-			descriptor[0] = /* READ */ adr + i;
-			descriptor[1] = /* WRITE */ SPARE_RAM + 0x1000;
-			descriptor[2] = 0x40000000 | /* LEN */ tmp_len;
-			//descriptor[3] = 0;
-			descriptor[3] = 2;
-			descriptor[4] = 0;
-			descriptor[5] = 0;
-			descriptor[6] = 0;
-			descriptor[7] = 0;
-			mem_dma[1] = /* FIRST_DESCRIPTOR */ SPARE_RAM;
-			mem_dma[3] = /* DMA WAKE CTRL */ 3;
-			mem_dma[2] = 1;
-			while (mem_dma[5] == 1)
-				usleep(2);
-			mem_dma[2] = 0;
-		}
-	    
-		munmap((void *)mem_dma, 0x1000);
-		
-		/* unmap the dma descriptor page, we won't need it anymore */
-		munmap((void *)memory_tmp, 0x1000);
-		/* adjust start and size of the remaining memory_tmp mmap */
-		memory_tmp += 0x1000;
-		memory_tmp_size -= 0x1000;
-	}
-
-	//
-	// Extra debug info
-	//
-	if(m_grabber->m_grabinfo)
-    printf("\nGrabInfo -> X-ResOrig: %i Y-ResOrig: %i FPS:%2.1Lf Adr: %X Adr2: %X OFS,OFS2: %d %d = %d C-offset:%d\n",xres_orig, yres_orig, m_fps, adr, adr2, ofs, ofs2, ofs+ofs2, offset);
-    
-    
-	//
-	// decode luma & chroma plane or lets say sort it
-	//
-	unsigned int x,y,luna_mem_pos = 0, chroma_mem_pos = 0, dat1 = 0;         
-    
-    int blocksize   = m_stb.chr_luma_stride;
-    int skip        = (m_stb.chr_luma_stride)*skiplines; // Skip mem position
-	int skipx		= skiplines;
-	
-	//
-	// Fix for some strange resolution, from Oktay
-	//
-	if((stride/2)%2==1)
-		stride-=2;
-
-	for (x = 0; x < stride; x += m_stb.chr_luma_stride)
-    {
-        // check if we can still copy a complete block.
-        if ((stride - x) <= m_stb.chr_luma_stride)
-            blocksize = stride-x;
-
-        dat1 = x;    // 1088    16 (68 x)
-        for (y = 0; y < ofs; y+=skiplines)
-        {
-            int z1=0;
-            int skipofs=0;
-            for(int y1=0;y1<blocksize;y1+=skipx)
-            {
-                *(bitmap->m_luma + (dat1/skipx)+(y1/skipx))=*(y1+memory_tmp + pageoffset + luna_mem_pos);
-
-                if (y < ofs2 && z1%2==0)
-                {
-                    skipofs=1;
-                    bitmap->m_chroma[(dat1/skipx)+(y1/skipx)]=*(y1+memory_tmp + pageoffset + offset + chroma_mem_pos);
-                    bitmap->m_chroma[(dat1/skipx)+(y1/skipx)+1]=*(1+y1+memory_tmp + pageoffset + offset + chroma_mem_pos);     
-                }
-                z1++;
-            }
-
-            if(skipofs==1)
-                chroma_mem_pos += skip;
-                
-            skipofs=0;
-            dat1 += stride;
-            luna_mem_pos += skip;
-                      
-        }
-
-        //Skipping invisble lines
-        if ( (xres_orig == 1280 && yres_orig == 1080) ) luna_mem_pos += (ofs - yres_orig) * m_stb.chr_luma_stride;
-    }
-
-	if (yres_orig%2 == 1)
-		yres_orig--;	// drop one line to make the numer even again
-    
-    //
-    // Convert YUV toRGB
-    //
-	bitmap->YUV2RGB();
-
-	//
-    // Set new scaled resolution
-    //
-    bitmap->SetYres(yres_orig/skiplines);
-    bitmap->SetXres(xres_orig/skiplines);
-
-    //
-    // Store orginal resolution
-    //
-	bitmap->SetYresOrig(yres_orig);
-    bitmap->SetXresOrig(xres_orig);
-
-	// un-map memory
-	munmap(memory_tmp, memory_tmp_size);   
-
 	return true;
 }
 
@@ -440,8 +203,8 @@ void CFrameGrabber::getResolution(CBitmap* bitmap, int stride, long double now)
         m_last_res_process = now;
         
 	    // get resolutions from the proc filesystem and save it to tmpvar
-	    yres_tmp = hexFromFile("/proc/stb/vmpeg/0/yres");
-	    xres_tmp = hexFromFile("/proc/stb/vmpeg/0/xres");
+	    yres_tmp = 1080; //hexFromFile("/proc/stb/vmpeg/0/yres");
+	    xres_tmp = 1920; //hexFromFile("/proc/stb/vmpeg/0/xres");
     }
     
     // Save orginal resolution
