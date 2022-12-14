@@ -65,6 +65,7 @@
 #define BRCM7278   7278
 #define BRCM7444   7444
 #define BRCM7376   7376
+#define HI3798MV200    3798
 // /tmp/chipset
 #define TEST1    1
 #define TEST2    2

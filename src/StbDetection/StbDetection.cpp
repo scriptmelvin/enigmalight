@@ -224,6 +224,11 @@ bool CStb::DetectSTB()
 					stb_type = BRCM7444;
 					break;
 				}
+				else if (strstr(buf,"hi3798mv200"))
+				{
+					stb_type = HI3798MV200;
+					break;
+				}
 			}
 			fclose(file);
 		}
@@ -404,6 +409,7 @@ bool CStb::DetectSTB()
 		case BRCM7252:
 		case BRCM7278:
 		case BRCM7444:
+		case HI3798MV200:
 			registeroffset = 0xf0600000;
 			chr_luma_stride = 0x80;
 			chr_luma_register_offset = 0x3c;
