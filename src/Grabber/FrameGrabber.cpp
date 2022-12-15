@@ -48,13 +48,6 @@ CFrameGrabber::CFrameGrabber(CGrabber* grabber) : m_grabber(grabber)
 	m_last_res_process  = 0.0;
 }
 
-CFrameGrabber::~CFrameGrabber()
-{
-	// close handle on memory
-	Log("Close memory /dev/mem"); 
-	close(mem_fd);
-}
-
 bool CFrameGrabber::Setup()
 {
 	try
@@ -73,14 +66,6 @@ bool CFrameGrabber::Setup()
 	            Log("DBG -> settings: mem2memdma_register %x", m_stb.mem2memdma_register);
 	        }
 	        
-	        Log("Open memory /dev/mem");
-			mem_fd = open("/dev/mem", O_RDWR | O_SYNC);
-			if (mem_fd < 0) {
-				LogError("Can't open memory....");
-				exit(0);
-			}
-		}
-
 		if(m_grabber->m_3d_mode != 1)
 	    	Log("3D mode: %i",m_grabber->m_3d_mode);
 		if (m_grabber->m_debug) 
