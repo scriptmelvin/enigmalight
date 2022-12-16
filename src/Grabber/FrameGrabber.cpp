@@ -48,6 +48,8 @@ CFrameGrabber::CFrameGrabber(CGrabber* grabber) : m_grabber(grabber)
 	m_last_res_process  = 0.0;
 }
 
+CFrameGrabber::~CFrameGrabber() {}
+
 bool CFrameGrabber::Setup()
 {
 	try
@@ -74,7 +76,7 @@ bool CFrameGrabber::Setup()
 		// Set some vars to default values
 		m_errorGiven = false;
 		m_fps=0;
-
+		}
 		if(m_grabber->m_debug)
 		{
 		    //Set fps counters
